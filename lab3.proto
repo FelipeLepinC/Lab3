@@ -1,0 +1,18 @@
+syntax ="proto3";
+option go_package = "/lab3";
+package lab3;
+
+message Info{
+    string Planeta = 1;
+    string Ciudad = 2;
+    int32 Soldados = 3;
+}
+
+message Message{
+    string Inicio = 1;
+}
+
+service Starwars{
+    rpc Enviarinfo (Info) returns (Info);
+    rpc Alertabroken (Message) returns (Info);
+}
