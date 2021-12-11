@@ -15,6 +15,13 @@ message Operacion {
     int32 Valor = 4;
 }
 
+message Reloj{
+    string Planeta = 1;
+    int32 x = 2;
+    int32 y = 3;
+    int32 z = 4;
+}
+
 message Message{
     int32 Nserver = 1;
 }
@@ -22,4 +29,5 @@ message Message{
 service Starwars{
     rpc Enviarinfo (Info) returns (Info);
     rpc Alertabroken (Operacion) returns (Message);
+    rpc Fulcrum (Operacion) returns (Reloj);
 }
