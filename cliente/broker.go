@@ -18,11 +18,7 @@ func main() {
 	
 	c := lab3.NewStarwarsClient(conn)
 
-	response, err := c.Alertabroken(context.Background(),&lab3.Message{Inicio:"Inicio"})
-
-	if response.Planeta != "" {
-		
-	}
+	response, err := c.Alertabroken(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Valor:5})
 
 	if err != nil {
 		log.Fatalf("Error when calling Enviarinfo: %s", err)

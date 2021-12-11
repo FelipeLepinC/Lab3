@@ -8,11 +8,18 @@ message Info{
     int32 Soldados = 3;
 }
 
+message Operacion {
+    string Accion = 1;
+    string Planeta = 2;
+    string Ciudad = 3;
+    int32 Valor = 4;
+}
+
 message Message{
-    string Inicio = 1;
+    int32 Nserver = 1;
 }
 
 service Starwars{
     rpc Enviarinfo (Info) returns (Info);
-    rpc Alertabroken (Message) returns (Info);
+    rpc Alertabroken (Operacion) returns (Message);
 }

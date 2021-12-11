@@ -87,18 +87,89 @@ func (x *Info) GetSoldados() int32 {
 	return 0
 }
 
+type Operacion struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Accion  string `protobuf:"bytes,1,opt,name=Accion,proto3" json:"Accion,omitempty"`
+	Planeta string `protobuf:"bytes,2,opt,name=Planeta,proto3" json:"Planeta,omitempty"`
+	Ciudad  string `protobuf:"bytes,3,opt,name=Ciudad,proto3" json:"Ciudad,omitempty"`
+	Valor   int32  `protobuf:"varint,4,opt,name=Valor,proto3" json:"Valor,omitempty"`
+}
+
+func (x *Operacion) Reset() {
+	*x = Operacion{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_lab3_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Operacion) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Operacion) ProtoMessage() {}
+
+func (x *Operacion) ProtoReflect() protoreflect.Message {
+	mi := &file_lab3_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Operacion.ProtoReflect.Descriptor instead.
+func (*Operacion) Descriptor() ([]byte, []int) {
+	return file_lab3_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Operacion) GetAccion() string {
+	if x != nil {
+		return x.Accion
+	}
+	return ""
+}
+
+func (x *Operacion) GetPlaneta() string {
+	if x != nil {
+		return x.Planeta
+	}
+	return ""
+}
+
+func (x *Operacion) GetCiudad() string {
+	if x != nil {
+		return x.Ciudad
+	}
+	return ""
+}
+
+func (x *Operacion) GetValor() int32 {
+	if x != nil {
+		return x.Valor
+	}
+	return 0
+}
+
 type Message struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Inicio string `protobuf:"bytes,1,opt,name=Inicio,proto3" json:"Inicio,omitempty"`
+	Nserver int32 `protobuf:"varint,1,opt,name=Nserver,proto3" json:"Nserver,omitempty"`
 }
 
 func (x *Message) Reset() {
 	*x = Message{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_lab3_proto_msgTypes[1]
+		mi := &file_lab3_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -111,7 +182,7 @@ func (x *Message) String() string {
 func (*Message) ProtoMessage() {}
 
 func (x *Message) ProtoReflect() protoreflect.Message {
-	mi := &file_lab3_proto_msgTypes[1]
+	mi := &file_lab3_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -124,14 +195,14 @@ func (x *Message) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message.ProtoReflect.Descriptor instead.
 func (*Message) Descriptor() ([]byte, []int) {
-	return file_lab3_proto_rawDescGZIP(), []int{1}
+	return file_lab3_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Message) GetInicio() string {
+func (x *Message) GetNserver() int32 {
 	if x != nil {
-		return x.Inicio
+		return x.Nserver
 	}
-	return ""
+	return 0
 }
 
 var File_lab3_proto protoreflect.FileDescriptor
@@ -143,16 +214,23 @@ var file_lab3_proto_rawDesc = []byte{
 	0x6e, 0x65, 0x74, 0x61, 0x12, 0x16, 0x0a, 0x06, 0x43, 0x69, 0x75, 0x64, 0x61, 0x64, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x43, 0x69, 0x75, 0x64, 0x61, 0x64, 0x12, 0x1a, 0x0a, 0x08,
 	0x53, 0x6f, 0x6c, 0x64, 0x61, 0x64, 0x6f, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08,
-	0x53, 0x6f, 0x6c, 0x64, 0x61, 0x64, 0x6f, 0x73, 0x22, 0x21, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x49, 0x6e, 0x69, 0x63, 0x69, 0x6f, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x49, 0x6e, 0x69, 0x63, 0x69, 0x6f, 0x32, 0x5b, 0x0a, 0x08, 0x53,
-	0x74, 0x61, 0x72, 0x77, 0x61, 0x72, 0x73, 0x12, 0x24, 0x0a, 0x0a, 0x45, 0x6e, 0x76, 0x69, 0x61,
-	0x72, 0x69, 0x6e, 0x66, 0x6f, 0x12, 0x0a, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x49, 0x6e, 0x66,
-	0x6f, 0x1a, 0x0a, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x29, 0x0a,
-	0x0c, 0x41, 0x6c, 0x65, 0x72, 0x74, 0x61, 0x62, 0x72, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x0d, 0x2e,
-	0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0a, 0x2e, 0x6c,
-	0x61, 0x62, 0x33, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x42, 0x07, 0x5a, 0x05, 0x2f, 0x6c, 0x61, 0x62,
-	0x33, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x53, 0x6f, 0x6c, 0x64, 0x61, 0x64, 0x6f, 0x73, 0x22, 0x6b, 0x0a, 0x09, 0x4f, 0x70, 0x65, 0x72,
+	0x61, 0x63, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x0a, 0x06, 0x41, 0x63, 0x63, 0x69, 0x6f, 0x6e, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x41, 0x63, 0x63, 0x69, 0x6f, 0x6e, 0x12, 0x18, 0x0a,
+	0x07, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
+	0x50, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x12, 0x16, 0x0a, 0x06, 0x43, 0x69, 0x75, 0x64, 0x61,
+	0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x43, 0x69, 0x75, 0x64, 0x61, 0x64, 0x12,
+	0x14, 0x0a, 0x05, 0x56, 0x61, 0x6c, 0x6f, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05,
+	0x56, 0x61, 0x6c, 0x6f, 0x72, 0x22, 0x23, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x12, 0x18, 0x0a, 0x07, 0x4e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x07, 0x4e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x32, 0x60, 0x0a, 0x08, 0x53, 0x74,
+	0x61, 0x72, 0x77, 0x61, 0x72, 0x73, 0x12, 0x24, 0x0a, 0x0a, 0x45, 0x6e, 0x76, 0x69, 0x61, 0x72,
+	0x69, 0x6e, 0x66, 0x6f, 0x12, 0x0a, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x49, 0x6e, 0x66, 0x6f,
+	0x1a, 0x0a, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x2e, 0x0a, 0x0c,
+	0x41, 0x6c, 0x65, 0x72, 0x74, 0x61, 0x62, 0x72, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x0f, 0x2e, 0x6c,
+	0x61, 0x62, 0x33, 0x2e, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x63, 0x69, 0x6f, 0x6e, 0x1a, 0x0d, 0x2e,
+	0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x42, 0x07, 0x5a, 0x05,
+	0x2f, 0x6c, 0x61, 0x62, 0x33, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -167,16 +245,17 @@ func file_lab3_proto_rawDescGZIP() []byte {
 	return file_lab3_proto_rawDescData
 }
 
-var file_lab3_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_lab3_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_lab3_proto_goTypes = []interface{}{
-	(*Info)(nil),    // 0: lab3.Info
-	(*Message)(nil), // 1: lab3.Message
+	(*Info)(nil),      // 0: lab3.Info
+	(*Operacion)(nil), // 1: lab3.Operacion
+	(*Message)(nil),   // 2: lab3.Message
 }
 var file_lab3_proto_depIdxs = []int32{
 	0, // 0: lab3.Starwars.Enviarinfo:input_type -> lab3.Info
-	1, // 1: lab3.Starwars.Alertabroken:input_type -> lab3.Message
+	1, // 1: lab3.Starwars.Alertabroken:input_type -> lab3.Operacion
 	0, // 2: lab3.Starwars.Enviarinfo:output_type -> lab3.Info
-	0, // 3: lab3.Starwars.Alertabroken:output_type -> lab3.Info
+	2, // 3: lab3.Starwars.Alertabroken:output_type -> lab3.Message
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -203,6 +282,18 @@ func file_lab3_proto_init() {
 			}
 		}
 		file_lab3_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Operacion); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_lab3_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Message); i {
 			case 0:
 				return &v.state
@@ -221,7 +312,7 @@ func file_lab3_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_lab3_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -248,7 +339,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type StarwarsClient interface {
 	Enviarinfo(ctx context.Context, in *Info, opts ...grpc.CallOption) (*Info, error)
-	Alertabroken(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Info, error)
+	Alertabroken(ctx context.Context, in *Operacion, opts ...grpc.CallOption) (*Message, error)
 }
 
 type starwarsClient struct {
@@ -268,8 +359,8 @@ func (c *starwarsClient) Enviarinfo(ctx context.Context, in *Info, opts ...grpc.
 	return out, nil
 }
 
-func (c *starwarsClient) Alertabroken(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Info, error) {
-	out := new(Info)
+func (c *starwarsClient) Alertabroken(ctx context.Context, in *Operacion, opts ...grpc.CallOption) (*Message, error) {
+	out := new(Message)
 	err := c.cc.Invoke(ctx, "/lab3.Starwars/Alertabroken", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -280,7 +371,7 @@ func (c *starwarsClient) Alertabroken(ctx context.Context, in *Message, opts ...
 // StarwarsServer is the server API for Starwars service.
 type StarwarsServer interface {
 	Enviarinfo(context.Context, *Info) (*Info, error)
-	Alertabroken(context.Context, *Message) (*Info, error)
+	Alertabroken(context.Context, *Operacion) (*Message, error)
 }
 
 // UnimplementedStarwarsServer can be embedded to have forward compatible implementations.
@@ -290,7 +381,7 @@ type UnimplementedStarwarsServer struct {
 func (*UnimplementedStarwarsServer) Enviarinfo(context.Context, *Info) (*Info, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Enviarinfo not implemented")
 }
-func (*UnimplementedStarwarsServer) Alertabroken(context.Context, *Message) (*Info, error) {
+func (*UnimplementedStarwarsServer) Alertabroken(context.Context, *Operacion) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Alertabroken not implemented")
 }
 
@@ -317,7 +408,7 @@ func _Starwars_Enviarinfo_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _Starwars_Alertabroken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Message)
+	in := new(Operacion)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -329,7 +420,7 @@ func _Starwars_Alertabroken_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: "/lab3.Starwars/Alertabroken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StarwarsServer).Alertabroken(ctx, req.(*Message))
+		return srv.(StarwarsServer).Alertabroken(ctx, req.(*Operacion))
 	}
 	return interceptor(ctx, in, info, handler)
 }
