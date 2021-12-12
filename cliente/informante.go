@@ -12,6 +12,7 @@ type reloj struct {
 	x int32
 	y int32
 	z int32
+	Servidor int32
 }
 
 var Relojes map[string][]*reloj
@@ -59,34 +60,37 @@ func main(){
 
 	//response, err := c.Enviarinfo(context.Background(),&lab3.Info{Planeta: "Tatooine",Ciudad: "Mos_Eisley", Soldados: 5})
 	Relojes = make(map[string][]*reloj)
-	response, err := c.Alertabroken(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Valor:5})
+
+	response, err := c.Alertabroken(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Intvalue:5})
 	if err != nil {
 		log.Fatalf("Error when calling Enviarinfo: %s", err)
 	}
 
-	reloj1 := reloj{Planeta:"Tatooine",x:0,y:0,z:0}
-	reloj2 := reloj{Planeta:"Tierra",x:1,y:0,z:0}
-	store(reloj1)
-	store(reloj2)
 
 	if response.Nserver == 1{
-		response1, err := c1.Fulcrum(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Valor:5})
+		response1, err := c1.Fulcrum(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Intvalue:5})
 		if err != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", err)
 		}
 		log.Fatalf("Response : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
+		reloj1 := reloj{Planeta:response1.Planeta,x:response1.X,y:response1.Y,z:response1.Z,Servidor:1}
+		store(reloj1)
 	}else if response.Nserver == 2{
-		response1, err := c2.Fulcrum(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Valor:5})
+		response1, err := c2.Fulcrum(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Intvalue:5})
 		if err != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", err)
 		}
 		log.Fatalf("Response : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
+		reloj1 := reloj{Planeta:response1.Planeta,x:response1.X,y:response1.Y,z:response1.Z,Servidor:2}
+		store(reloj1)
 	}else if response.Nserver == 3{
-		response1, err := c3.Fulcrum(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Valor:5})
+		response1, err := c3.Fulcrum(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Intvalue:5})
 		if err != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", err)
 		}
 		log.Fatalf("Response : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
+		reloj1 := reloj{Planeta:response1.Planeta,x:response1.X,y:response1.Y,z:response1.Z,Servidor:3}
+		store(reloj1)
 	}else{
 		log.Fatalf("Otro caso")
 	}

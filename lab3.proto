@@ -12,7 +12,9 @@ message Operacion {
     string Accion = 1;
     string Planeta = 2;
     string Ciudad = 3;
-    int32 Valor = 4;
+    int32 Intvalue = 4;
+    string Svalue = 5;
+    int32 Servidor = 6;
 }
 
 message Reloj{
@@ -30,4 +32,5 @@ service Starwars{
     rpc Enviarinfo (Info) returns (Info);
     rpc Alertabroken (Operacion) returns (Message);
     rpc Fulcrum (Operacion) returns (Reloj);
+    rpc Intermediario (Message) returns (Message);
 }
