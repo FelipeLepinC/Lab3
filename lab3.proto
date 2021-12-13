@@ -17,6 +17,12 @@ message Operacion {
     int32 Servidor = 6;
 }
 
+message L{
+    string Planeta = 1;
+    string Ciudad = 2;
+    int32 Servidor = 3;
+}
+
 message Reloj{
     string Planeta = 1;
     int32 x = 2;
@@ -33,4 +39,7 @@ service Starwars{
     rpc Alertabroken (Operacion) returns (Message);
     rpc Fulcrum (Operacion) returns (Reloj);
     rpc Intermediario (Message) returns (Message);
+    rpc Leia (L) returns (L);
+    rpc Interleia (L) returns (L);
+    rpc Leiafulcrum (L) returns (L);
 }

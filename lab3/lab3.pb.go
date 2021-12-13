@@ -174,6 +174,69 @@ func (x *Operacion) GetServidor() int32 {
 	return 0
 }
 
+type L struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Planeta  string `protobuf:"bytes,1,opt,name=Planeta,proto3" json:"Planeta,omitempty"`
+	Ciudad   string `protobuf:"bytes,2,opt,name=Ciudad,proto3" json:"Ciudad,omitempty"`
+	Servidor int32  `protobuf:"varint,3,opt,name=Servidor,proto3" json:"Servidor,omitempty"`
+}
+
+func (x *L) Reset() {
+	*x = L{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_lab3_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *L) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*L) ProtoMessage() {}
+
+func (x *L) ProtoReflect() protoreflect.Message {
+	mi := &file_lab3_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use L.ProtoReflect.Descriptor instead.
+func (*L) Descriptor() ([]byte, []int) {
+	return file_lab3_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *L) GetPlaneta() string {
+	if x != nil {
+		return x.Planeta
+	}
+	return ""
+}
+
+func (x *L) GetCiudad() string {
+	if x != nil {
+		return x.Ciudad
+	}
+	return ""
+}
+
+func (x *L) GetServidor() int32 {
+	if x != nil {
+		return x.Servidor
+	}
+	return 0
+}
+
 type Reloj struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -188,7 +251,7 @@ type Reloj struct {
 func (x *Reloj) Reset() {
 	*x = Reloj{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_lab3_proto_msgTypes[2]
+		mi := &file_lab3_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -201,7 +264,7 @@ func (x *Reloj) String() string {
 func (*Reloj) ProtoMessage() {}
 
 func (x *Reloj) ProtoReflect() protoreflect.Message {
-	mi := &file_lab3_proto_msgTypes[2]
+	mi := &file_lab3_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -214,7 +277,7 @@ func (x *Reloj) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Reloj.ProtoReflect.Descriptor instead.
 func (*Reloj) Descriptor() ([]byte, []int) {
-	return file_lab3_proto_rawDescGZIP(), []int{2}
+	return file_lab3_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Reloj) GetPlaneta() string {
@@ -256,7 +319,7 @@ type Message struct {
 func (x *Message) Reset() {
 	*x = Message{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_lab3_proto_msgTypes[3]
+		mi := &file_lab3_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -269,7 +332,7 @@ func (x *Message) String() string {
 func (*Message) ProtoMessage() {}
 
 func (x *Message) ProtoReflect() protoreflect.Message {
-	mi := &file_lab3_proto_msgTypes[3]
+	mi := &file_lab3_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -282,7 +345,7 @@ func (x *Message) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Message.ProtoReflect.Descriptor instead.
 func (*Message) Descriptor() ([]byte, []int) {
-	return file_lab3_proto_rawDescGZIP(), []int{3}
+	return file_lab3_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *Message) GetNserver() int32 {
@@ -312,26 +375,37 @@ var file_lab3_proto_rawDesc = []byte{
 	0x53, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x53, 0x76,
 	0x61, 0x6c, 0x75, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x53, 0x65, 0x72, 0x76, 0x69, 0x64, 0x6f, 0x72,
 	0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x53, 0x65, 0x72, 0x76, 0x69, 0x64, 0x6f, 0x72,
-	0x22, 0x4b, 0x0a, 0x05, 0x52, 0x65, 0x6c, 0x6f, 0x6a, 0x12, 0x18, 0x0a, 0x07, 0x50, 0x6c, 0x61,
-	0x6e, 0x65, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x50, 0x6c, 0x61, 0x6e,
-	0x65, 0x74, 0x61, 0x12, 0x0c, 0x0a, 0x01, 0x78, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01,
-	0x78, 0x12, 0x0c, 0x0a, 0x01, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x79, 0x12,
-	0x0c, 0x0a, 0x01, 0x7a, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x7a, 0x22, 0x23, 0x0a,
-	0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x4e, 0x73, 0x65, 0x72,
-	0x76, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x07, 0x4e, 0x73, 0x65, 0x72, 0x76,
-	0x65, 0x72, 0x32, 0xb8, 0x01, 0x0a, 0x08, 0x53, 0x74, 0x61, 0x72, 0x77, 0x61, 0x72, 0x73, 0x12,
-	0x24, 0x0a, 0x0a, 0x45, 0x6e, 0x76, 0x69, 0x61, 0x72, 0x69, 0x6e, 0x66, 0x6f, 0x12, 0x0a, 0x2e,
-	0x6c, 0x61, 0x62, 0x33, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x1a, 0x0a, 0x2e, 0x6c, 0x61, 0x62, 0x33,
-	0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x2e, 0x0a, 0x0c, 0x41, 0x6c, 0x65, 0x72, 0x74, 0x61, 0x62,
-	0x72, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x0f, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4f, 0x70, 0x65,
-	0x72, 0x61, 0x63, 0x69, 0x6f, 0x6e, 0x1a, 0x0d, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x27, 0x0a, 0x07, 0x46, 0x75, 0x6c, 0x63, 0x72, 0x75, 0x6d,
-	0x12, 0x0f, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x63, 0x69, 0x6f,
-	0x6e, 0x1a, 0x0b, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x52, 0x65, 0x6c, 0x6f, 0x6a, 0x12, 0x2d,
-	0x0a, 0x0d, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6d, 0x65, 0x64, 0x69, 0x61, 0x72, 0x69, 0x6f, 0x12,
-	0x0d, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x1a, 0x0d,
-	0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x42, 0x07, 0x5a,
-	0x05, 0x2f, 0x6c, 0x61, 0x62, 0x33, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x22, 0x51, 0x0a, 0x01, 0x4c, 0x12, 0x18, 0x0a, 0x07, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x12,
+	0x16, 0x0a, 0x06, 0x43, 0x69, 0x75, 0x64, 0x61, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x43, 0x69, 0x75, 0x64, 0x61, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x64, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x64, 0x6f, 0x72, 0x22, 0x4b, 0x0a, 0x05, 0x52, 0x65, 0x6c, 0x6f, 0x6a, 0x12, 0x18, 0x0a, 0x07,
+	0x50, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x50,
+	0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x12, 0x0c, 0x0a, 0x01, 0x78, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x01, 0x78, 0x12, 0x0c, 0x0a, 0x01, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52,
+	0x01, 0x79, 0x12, 0x0c, 0x0a, 0x01, 0x7a, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x7a,
+	0x22, 0x23, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x4e,
+	0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x07, 0x4e, 0x73,
+	0x65, 0x72, 0x76, 0x65, 0x72, 0x32, 0x92, 0x02, 0x0a, 0x08, 0x53, 0x74, 0x61, 0x72, 0x77, 0x61,
+	0x72, 0x73, 0x12, 0x24, 0x0a, 0x0a, 0x45, 0x6e, 0x76, 0x69, 0x61, 0x72, 0x69, 0x6e, 0x66, 0x6f,
+	0x12, 0x0a, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x1a, 0x0a, 0x2e, 0x6c,
+	0x61, 0x62, 0x33, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x2e, 0x0a, 0x0c, 0x41, 0x6c, 0x65, 0x72,
+	0x74, 0x61, 0x62, 0x72, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x0f, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e,
+	0x4f, 0x70, 0x65, 0x72, 0x61, 0x63, 0x69, 0x6f, 0x6e, 0x1a, 0x0d, 0x2e, 0x6c, 0x61, 0x62, 0x33,
+	0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x27, 0x0a, 0x07, 0x46, 0x75, 0x6c, 0x63,
+	0x72, 0x75, 0x6d, 0x12, 0x0f, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4f, 0x70, 0x65, 0x72, 0x61,
+	0x63, 0x69, 0x6f, 0x6e, 0x1a, 0x0b, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x52, 0x65, 0x6c, 0x6f,
+	0x6a, 0x12, 0x2d, 0x0a, 0x0d, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6d, 0x65, 0x64, 0x69, 0x61, 0x72,
+	0x69, 0x6f, 0x12, 0x0d, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x1a, 0x0d, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x12, 0x18, 0x0a, 0x04, 0x4c, 0x65, 0x69, 0x61, 0x12, 0x07, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e,
+	0x4c, 0x1a, 0x07, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4c, 0x12, 0x1d, 0x0a, 0x09, 0x49, 0x6e,
+	0x74, 0x65, 0x72, 0x6c, 0x65, 0x69, 0x61, 0x12, 0x07, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4c,
+	0x1a, 0x07, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4c, 0x12, 0x1f, 0x0a, 0x0b, 0x4c, 0x65, 0x69,
+	0x61, 0x66, 0x75, 0x6c, 0x63, 0x72, 0x75, 0x6d, 0x12, 0x07, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e,
+	0x4c, 0x1a, 0x07, 0x2e, 0x6c, 0x61, 0x62, 0x33, 0x2e, 0x4c, 0x42, 0x07, 0x5a, 0x05, 0x2f, 0x6c,
+	0x61, 0x62, 0x33, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -346,24 +420,31 @@ func file_lab3_proto_rawDescGZIP() []byte {
 	return file_lab3_proto_rawDescData
 }
 
-var file_lab3_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_lab3_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_lab3_proto_goTypes = []interface{}{
 	(*Info)(nil),      // 0: lab3.Info
 	(*Operacion)(nil), // 1: lab3.Operacion
-	(*Reloj)(nil),     // 2: lab3.Reloj
-	(*Message)(nil),   // 3: lab3.Message
+	(*L)(nil),         // 2: lab3.L
+	(*Reloj)(nil),     // 3: lab3.Reloj
+	(*Message)(nil),   // 4: lab3.Message
 }
 var file_lab3_proto_depIdxs = []int32{
 	0, // 0: lab3.Starwars.Enviarinfo:input_type -> lab3.Info
 	1, // 1: lab3.Starwars.Alertabroken:input_type -> lab3.Operacion
 	1, // 2: lab3.Starwars.Fulcrum:input_type -> lab3.Operacion
-	3, // 3: lab3.Starwars.Intermediario:input_type -> lab3.Message
-	0, // 4: lab3.Starwars.Enviarinfo:output_type -> lab3.Info
-	3, // 5: lab3.Starwars.Alertabroken:output_type -> lab3.Message
-	2, // 6: lab3.Starwars.Fulcrum:output_type -> lab3.Reloj
-	3, // 7: lab3.Starwars.Intermediario:output_type -> lab3.Message
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	4, // 3: lab3.Starwars.Intermediario:input_type -> lab3.Message
+	2, // 4: lab3.Starwars.Leia:input_type -> lab3.L
+	2, // 5: lab3.Starwars.Interleia:input_type -> lab3.L
+	2, // 6: lab3.Starwars.Leiafulcrum:input_type -> lab3.L
+	0, // 7: lab3.Starwars.Enviarinfo:output_type -> lab3.Info
+	4, // 8: lab3.Starwars.Alertabroken:output_type -> lab3.Message
+	3, // 9: lab3.Starwars.Fulcrum:output_type -> lab3.Reloj
+	4, // 10: lab3.Starwars.Intermediario:output_type -> lab3.Message
+	2, // 11: lab3.Starwars.Leia:output_type -> lab3.L
+	2, // 12: lab3.Starwars.Interleia:output_type -> lab3.L
+	2, // 13: lab3.Starwars.Leiafulcrum:output_type -> lab3.L
+	7, // [7:14] is the sub-list for method output_type
+	0, // [0:7] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -400,7 +481,7 @@ func file_lab3_proto_init() {
 			}
 		}
 		file_lab3_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Reloj); i {
+			switch v := v.(*L); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -412,6 +493,18 @@ func file_lab3_proto_init() {
 			}
 		}
 		file_lab3_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Reloj); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_lab3_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Message); i {
 			case 0:
 				return &v.state
@@ -430,7 +523,7 @@ func file_lab3_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_lab3_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -460,6 +553,9 @@ type StarwarsClient interface {
 	Alertabroken(ctx context.Context, in *Operacion, opts ...grpc.CallOption) (*Message, error)
 	Fulcrum(ctx context.Context, in *Operacion, opts ...grpc.CallOption) (*Reloj, error)
 	Intermediario(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	Leia(ctx context.Context, in *L, opts ...grpc.CallOption) (*L, error)
+	Interleia(ctx context.Context, in *L, opts ...grpc.CallOption) (*L, error)
+	Leiafulcrum(ctx context.Context, in *L, opts ...grpc.CallOption) (*L, error)
 }
 
 type starwarsClient struct {
@@ -506,12 +602,42 @@ func (c *starwarsClient) Intermediario(ctx context.Context, in *Message, opts ..
 	return out, nil
 }
 
+func (c *starwarsClient) Leia(ctx context.Context, in *L, opts ...grpc.CallOption) (*L, error) {
+	out := new(L)
+	err := c.cc.Invoke(ctx, "/lab3.Starwars/Leia", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *starwarsClient) Interleia(ctx context.Context, in *L, opts ...grpc.CallOption) (*L, error) {
+	out := new(L)
+	err := c.cc.Invoke(ctx, "/lab3.Starwars/Interleia", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *starwarsClient) Leiafulcrum(ctx context.Context, in *L, opts ...grpc.CallOption) (*L, error) {
+	out := new(L)
+	err := c.cc.Invoke(ctx, "/lab3.Starwars/Leiafulcrum", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StarwarsServer is the server API for Starwars service.
 type StarwarsServer interface {
 	Enviarinfo(context.Context, *Info) (*Info, error)
 	Alertabroken(context.Context, *Operacion) (*Message, error)
 	Fulcrum(context.Context, *Operacion) (*Reloj, error)
 	Intermediario(context.Context, *Message) (*Message, error)
+	Leia(context.Context, *L) (*L, error)
+	Interleia(context.Context, *L) (*L, error)
+	Leiafulcrum(context.Context, *L) (*L, error)
 }
 
 // UnimplementedStarwarsServer can be embedded to have forward compatible implementations.
@@ -529,6 +655,15 @@ func (*UnimplementedStarwarsServer) Fulcrum(context.Context, *Operacion) (*Reloj
 }
 func (*UnimplementedStarwarsServer) Intermediario(context.Context, *Message) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Intermediario not implemented")
+}
+func (*UnimplementedStarwarsServer) Leia(context.Context, *L) (*L, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Leia not implemented")
+}
+func (*UnimplementedStarwarsServer) Interleia(context.Context, *L) (*L, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Interleia not implemented")
+}
+func (*UnimplementedStarwarsServer) Leiafulcrum(context.Context, *L) (*L, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Leiafulcrum not implemented")
 }
 
 func RegisterStarwarsServer(s *grpc.Server, srv StarwarsServer) {
@@ -607,6 +742,60 @@ func _Starwars_Intermediario_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Starwars_Leia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(L)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StarwarsServer).Leia(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lab3.Starwars/Leia",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StarwarsServer).Leia(ctx, req.(*L))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Starwars_Interleia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(L)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StarwarsServer).Interleia(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lab3.Starwars/Interleia",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StarwarsServer).Interleia(ctx, req.(*L))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Starwars_Leiafulcrum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(L)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StarwarsServer).Leiafulcrum(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lab3.Starwars/Leiafulcrum",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StarwarsServer).Leiafulcrum(ctx, req.(*L))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Starwars_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "lab3.Starwars",
 	HandlerType: (*StarwarsServer)(nil),
@@ -626,6 +815,18 @@ var _Starwars_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Intermediario",
 			Handler:    _Starwars_Intermediario_Handler,
+		},
+		{
+			MethodName: "Leia",
+			Handler:    _Starwars_Leia_Handler,
+		},
+		{
+			MethodName: "Interleia",
+			Handler:    _Starwars_Interleia_Handler,
+		},
+		{
+			MethodName: "Leiafulcrum",
+			Handler:    _Starwars_Leiafulcrum_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -18,16 +18,18 @@ type Server struct {
 	planeta string
 	ciudad string
 	soldados int32
+	intvalue int32
+    servidor int32
 }
 
-type reloj struct {
-	Planeta string
-	x int32
-	y int32
-	z int32
-	Servidor int32
+type reloj struct{   ///////////////////////////
+	x int
+	y int
+	z int
+	servidor int
 }
-var Relojes map[string][]*reloj = make(map[string][]*reloj)
+
+var mapaDos = make(map[string] reloj)
 
 func ReadPlanet(planeta string) {
 	fileName := planeta + ".txt"
@@ -209,12 +211,6 @@ func ClearRegistro(servidor string) {
 	}
 }
 
-func store(Reloj reloj) {
-    Relojes[Reloj.Planeta] = append(Relojes[Reloj.Planeta], &Reloj)
-}
-/* reloj1 := reloj{Planeta:response1.Planeta,x:response1.X,y:response1.Y,z:response1.Z,Servidor:2}
-store(reloj1) */
-
 func (s *Server) Enviarinfo(ctx context.Context, in *Info) (*Info, error){
 	return &Info{Planeta: "Tatooine",Ciudad: "Mos_Eisley", Soldados: 5},nil
 }
@@ -227,24 +223,22 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 		}else{
 			AddCity(in.Planeta, in.Ciudad, "")
 		}
-		count, ok := Relojes[in.Planeta]
+		count, ok := mapaDos[in.Planeta]
 		if ok == false {
-			if in.Servidor == 1 {
-				reloj1 := reloj{Planeta:in.Planeta,x:1,y:0,z:0,Servidor:in.Servidor}
-			}else if in.Servidor == 2 {
-				reloj1 := reloj{Planeta:in.Planeta,x:0,y:1,z:0,Servidor:in.Servidor}
-			}else if in.Servidor == 3 {
-				reloj1 := reloj{Planeta:in.Planeta,x:0,y:0,z:1,Servidor:in.Servidor}
-			}else{
-				log.Printf("Numero de servidor incorrecto")
-			}
-		}else{
-			if in.Servidor == 1 {count.x = count.x + 1
-			}else if in.Servidor == 2 {count.y = count.y + 1
-			}else if in.Servidor == 3 {count.z = count.z + 1
-			}else {log.Printf("Numero de servidor incorrecto")}
-		}
-		store(count)
+			fmt.Println("el elemento no estaba", count)
+			var r1 reloj
+			r1.x = 1
+			r1.y = 0
+			r1.z = 0
+			r1.servidor = 1
+			mapaDos[in.Planeta]=r1
+			fmt.Println(mapaDos)
+		} else {
+			var r1 reloj
+			mapaDos[in.Planeta] = r1
+			r1.x = r1.x + 1
+			mapaDos[in.Planeta] = r1
+		} 
 	}else if in.Accion == "DeleteCity"{
 		DeleteCity(in.Planeta, in.Ciudad)
 	}else if in.Accion == "UpdateName"{
@@ -270,4 +264,36 @@ func (s *Server) Alertabroken(ctx context.Context, in *Operacion) (*Message, err
 func (s *Server) Intermediario(ctx context.Context, in *Message) (*Message, error) {
 	log.Printf(" %d ",in.Nserver)
 	return &Message{Nserver:in.Nserver},nil
+}
+
+func (s *Server) Leia(ctx context.Context, in *L) (*L, error) {
+	log.Printf(" %s ",in.Planeta)
+	s.planeta = in.Planeta
+	s.ciudad = in.Ciudad
+	s.servidor = in.Servidor
+	s.process = true
+	log.Printf("%t",s.process)
+	for(s.process) {
+		//log.Printf("Esta aqui for leia")
+	}
+	return &L{Planeta: s.planeta,Ciudad:s.ciudad,Servidor:s.servidor}, nil
+}
+
+func (s *Server) Interleia(ctx context.Context, in *L) (*L, error) {
+	log.Printf(" %s ",in.Planeta)
+	s.planeta = in.Planeta
+	s.ciudad = in.Ciudad
+	s.servidor = in.Servidor
+	s.process = false
+	log.Printf("%t",s.process)
+	for(!s.process){
+		//log.Printf("Esta aqui for Interleia")
+	}
+	log.Printf("Sale del ciclo")
+	return &L{Planeta: s.planeta,Ciudad:s.ciudad,Servidor:s.servidor}, nil
+}
+
+func (s *Server) Leiafulcrum(ctx context.Context, in *L)(*L, error){
+	log.Printf(" %s ",in.Planeta)
+	return &L{Planeta: in.Planeta,Ciudad:in.Ciudad,Servidor:in.Servidor}, nil
 }

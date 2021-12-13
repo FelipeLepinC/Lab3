@@ -7,16 +7,13 @@ import (
 	"google.golang.org/grpc"
 	"fmt"
 )
-
 type Reloj struct{   ///////////////////////////
 	x int
 	y int
 	z int
 	servidor int
 }
-
 var mapaDos = make(map[string] Reloj)
-
 func main(){
 	// conexion con el server broker.go
 	var conn *grpc.ClientConn
@@ -54,18 +51,18 @@ func main(){
 	defer Ful3.Close()
 	c3 := lab3.NewStarwarsClient(Ful3)
 
+	//response, err := c.Enviarinfo(context.Background(),&lab3.Info{Planeta: "Tatooine",Ciudad: "Mos_Eisley", Soldados: 5})
+
 	response, err := c.Alertabroken(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Intvalue:5})
 	if err != nil {
 		log.Fatalf("Error when calling Enviarinfo: %s", err)
 	}
-
-
 	if response.Nserver == 1{
 		response1, err := c1.Fulcrum(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Intvalue:5})
 		if err != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", err)
 		}
-		log.Fatalf("Response : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
+		fmt.Println("Response : %s %d %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z,response1.Servidor)
 		count, ok := mapaDos[response1.Planeta]
 		if ok == false {
 			fmt.Println("el elemento no estaba", count)
@@ -81,51 +78,19 @@ func main(){
 			mapaDos[response1.Planeta] = r1
 			r1.x = r1.x + 1
 			mapaDos[response1.Planeta] = r1
-		} 
+		}
 	}else if response.Nserver == 2{
 		response1, err := c2.Fulcrum(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Intvalue:5})
 		if err != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", err)
 		}
 		log.Fatalf("Response : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
-		count, ok := mapaDos[response1.Planeta]
-		if ok == false {
-			fmt.Println("el elemento no estaba", count)
-			var r1 Reloj
-			r1.x = 1
-			r1.y = 0
-			r1.z = 0
-			r1.servidor = 1
-			mapaDos[response1.Planeta]=r1
-			fmt.Println(mapaDos)
-		} else {
-			var r1 Reloj
-			mapaDos[response1.Planeta] = r1
-			r1.x = r1.x + 1
-			mapaDos[response1.Planeta] = r1
-		} 
 	}else if response.Nserver == 3{
 		response1, err := c3.Fulcrum(context.Background(),&lab3.Operacion{Accion:"AddCity",Planeta:"Tatooine",Ciudad:"Mos Eisley",Intvalue:5})
 		if err != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", err)
 		}
 		log.Fatalf("Response : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
-		count, ok := mapaDos[response1.Planeta]
-		if ok == false {
-			fmt.Println("el elemento no estaba", count)
-			var r1 Reloj
-			r1.x = 1
-			r1.y = 0
-			r1.z = 0
-			r1.servidor = 1
-			mapaDos[response1.Planeta]=r1
-			fmt.Println(mapaDos)
-		} else {
-			var r1 Reloj
-			mapaDos[response1.Planeta] = r1
-			r1.x = r1.x + 1
-			mapaDos[response1.Planeta] = r1
-		} 
 	}else{
 		log.Fatalf("Otro caso")
 	}
