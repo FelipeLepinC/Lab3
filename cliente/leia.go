@@ -5,20 +5,17 @@ import (
 	"golang.org/x/net/context"
 	"lab3/lab3"
 	"google.golang.org/grpc"
+	"bufio"
+	"os"
+	"fmt"
+	"strings"
 )
 
-type Reloj struct{   ///////////////////////////
-	x int
-	y int
-	z int
-	servidor int
-}
-
-var mapaDos = make(map[string] Reloj)
-
 func main(){
-	var Planeta string
-	var Ciudad string
+	var planeta string
+	var ciudad string
+	var lectura int
+	var servidor int32 
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":9000",grpc.WithInsecure())
 	if err != nil {
@@ -46,18 +43,35 @@ func main(){
 				ciudad = nombresComoArreglo[2]
 				count, ok := mapaDos[planeta]
 				if ok == false {
-					Servidor = 0
+					servidor = 0
 				}else{
-					Servidor = int32(count.servidor)
-					fmt.Println(Servidor)
+					servidor = int32(count.servidor)
+					fmt.Println(servidor)
 				}
-				response, err := c.Leia(context.Background(),&lab3.L{Planeta:planeta,Ciudad:ciudad,Servidor:Servidor})
+				response, err := c.Leia(context.Background(),&lab3.L{Planeta:planeta,Ciudad:ciudad,Servidor:servidor})
 				if err != nil {
 					log.Fatalf("Error when calling Leia: %s", err)
 				}
 				log.Printf("Response from server: %s",response.Planeta)
-				
-
+				count, ok = mapaDos[response.Planeta]
+				if ok == false {
+					if response.Planeta != "" {
+						fmt.Println("el elemento no estaba", count)
+						var r1 Reloj
+						r1.x = 0
+						r1.y = 1
+						r1.z = 0
+						r1.servidor = int(response.Servidor)
+						mapaDos[response.Planeta] = r1
+						fmt.Println(mapaDos)
+					}
+				} else {
+					var r1 Reloj
+					r1 = mapaDos[response.Planeta] 
+					r1.y = r1.y + 1
+					r1.servidor = int(response.Servidor)
+					mapaDos[response.Planeta] = r1
+				} 
 			}
 		}
 	}

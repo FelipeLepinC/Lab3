@@ -44,11 +44,15 @@ func main() {
 	c3 := lab3.NewStarwarsClient(Ful3) 
 
 	planeta := "Tatooine"
-	ciudad := "Mos_Eisley"
+	valor := int32(0)
+	x := int32(0)
+	y := int32(0)
+	z := int32(0)
 	servidor := int32(1)
+	merge := false
 
 	for{
-		response, err := c.Interleia(context.Background(),&lab3.Lresponse{Planeta:planeta,Ciudad:ciudad,Servidor:servidor})
+		response, err := c.Interleia(context.Background(),&lab3.Lresponse{Planeta:planeta,Valor:valor,X:x,Y:y,Z:z,Servidor:servidor,Merge:merge})
 		if err != nil {
 			log.Fatalf("Error when calling Interleia: %s", err)
 		}
@@ -61,8 +65,12 @@ func main() {
 			}
 			log.Printf("Response from server: %s",response2.Planeta)
 			planeta = response2.Planeta
-			ciudad = response2.Ciudad
+			valor = response2.Valor
+			x = response2.X
+			y = response2.Y
+			z = response2.Z
 			servidor = response2.Servidor
+			merge = response2.Merge
 		}else if response.Servidor == 2{
 			response2, err2 := c2.Leiafulcrum(context.Background(),&lab3.L{Planeta:response.Planeta,Ciudad:response.Ciudad,Servidor:response.Servidor})
 			if err2 != nil {
@@ -70,8 +78,12 @@ func main() {
 			}
 			log.Printf("Response from server: %s",response2.Planeta)
 			planeta = response2.Planeta
-			ciudad = response2.Ciudad
+			valor = response2.Valor
+			x = response2.X
+			y = response2.Y
+			z = response2.Z
 			servidor = response2.Servidor
+			merge = response2.Merge
 		}else{
 			response2, err2 := c3.Leiafulcrum(context.Background(),&lab3.L{Planeta:response.Planeta,Ciudad:response.Ciudad,Servidor:response.Servidor})
 			if err2 != nil {
@@ -79,8 +91,12 @@ func main() {
 			}
 			log.Printf("Response from server: %s",response2.Planeta)
 			planeta = response2.Planeta
-			ciudad = response2.Ciudad
+			valor = response2.Valor
+			x = response2.X
+			y = response2.Y
+			z = response2.Z
 			servidor = response2.Servidor
+			merge = response2.Merge
 		}
 	}
 }
