@@ -1,0 +1,9 @@
+AddCity Tatooine Mos_Eisley 100
+AddCity Tatooine Santiago 85
+AddCity Tatooine Calama 25
+AddCity Tatooine Talca 78
+UpdateNumber Tatooine Mos_Eisley 99
+AddCity Tatooine Mos_Pelgo 8
+UpdateName Tatooine Mos_Eisley Mos_Gamos
+DeleteCity Tatooine Mos_Gamos
+DeleteCity Tatooine Mos_Eisley

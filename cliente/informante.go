@@ -29,6 +29,7 @@ func main(){
 	var Intvalue int32
 	var  Svalue  string
 	var Servidor int32
+	var num string
 	var conn *grpc.ClientConn
 
 	conn, err := grpc.Dial(":9000",grpc.WithInsecure())
@@ -86,27 +87,36 @@ func main(){
 			if nombresComoArreglo[0] == "AddCity" {
 				Accion = nombresComoArreglo[0]
 				Planeta = nombresComoArreglo[1]
-				Ciudad = nombresComoArreglo[2]
-				r1, _ := strconv.Atoi(nombresComoArreglo[3])
-				Intvalue = int32(r1)
-				Svalue = ""
+				if len(nombresComoArreglo)== 4{
+					Ciudad = nombresComoArreglo[2]
+					num = strings.Replace(nombresComoArreglo[3], "\n", "", -1)
+					r1, _ := strconv.Atoi(num)
+					Intvalue = int32(r1)
+					Svalue = ""
+				}else if len(nombresComoArreglo) == 3{
+					Ciudad = strings.Replace(nombresComoArreglo[2], "\n", "", -1)
+					Intvalue = int32(-1)
+					Svalue = ""
+				}
+				fmt.Println(Accion,Planeta,Ciudad,Intvalue,Svalue)
 			} else if nombresComoArreglo[0] == "DeleteCity"{
 				Accion = nombresComoArreglo[0] 
 				Planeta = nombresComoArreglo[1]
-				Ciudad = nombresComoArreglo[2]
+				Ciudad = strings.Replace(nombresComoArreglo[2], "\n", "", -1)
 				Intvalue = 0
 				Svalue = ""
 			} else if nombresComoArreglo[0] == "UpdateName"{
 			    Accion = nombresComoArreglo[0] 
 				Planeta = nombresComoArreglo[1]
 				Ciudad = nombresComoArreglo[2]
-				Svalue = nombresComoArreglo[3]
+				Svalue = strings.Replace(nombresComoArreglo[3], "\n", "", -1)
 				Intvalue = 0
 			} else if nombresComoArreglo[0] == "UpdateNumber"{
 				Accion = nombresComoArreglo[0] 
 				Planeta = nombresComoArreglo[1]
 				Ciudad = nombresComoArreglo[2]
-				r1, _ := strconv.Atoi(nombresComoArreglo[3])
+				num = strings.Replace(nombresComoArreglo[3], "\n", "", -1)
+				r1, _ := strconv.Atoi(num)
 				Intvalue = int32(r1)
 				Svalue = ""
 			} 
@@ -130,14 +140,16 @@ func main(){
 				log.Printf("Respuesta del fulcrum1 : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
 				count, ok := mapaDos[response1.Planeta]
 				if ok == false {
-					fmt.Println("el elemento no estaba", count)
-					var r1 Reloj
-					r1.x = 1
-					r1.y = 0
-					r1.z = 0
-					r1.servidor = int(response.Nserver)
-					mapaDos[response1.Planeta]=r1
-					fmt.Println(mapaDos)
+					if response1.Planeta != "" {
+						fmt.Println("el elemento no estaba", count)
+						var r1 Reloj
+						r1.x = 1
+						r1.y = 0
+						r1.z = 0
+						r1.servidor = int(response.Nserver)
+						mapaDos[response1.Planeta]=r1
+						fmt.Println(mapaDos)
+					}
 				} else {
 					var r1 Reloj
 					r1 = mapaDos[response1.Planeta]
@@ -145,6 +157,9 @@ func main(){
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta] = r1
 				} 
+				if Accion == "DeleteCity" {
+					delete(mapaDos, response1.Planeta)
+				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 2{
 				response1, err := c2.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
@@ -154,14 +169,16 @@ func main(){
 				log.Printf(" Respuesta del fulcrum2 : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
 				count, ok := mapaDos[response1.Planeta]
 				if ok == false {
-					fmt.Println("el elemento no estaba", count)
-					var r1 Reloj
-					r1.x = 0
-					r1.y = 1
-					r1.z = 0
-					r1.servidor = int(response.Nserver)
-					mapaDos[response1.Planeta]=r1
-					fmt.Println(mapaDos)
+					if response1.Planeta != "" {
+						fmt.Println("el elemento no estaba", count)
+						var r1 Reloj
+						r1.x = 0
+						r1.y = 1
+						r1.z = 0
+						r1.servidor = int(response.Nserver)
+						mapaDos[response1.Planeta]=r1
+						fmt.Println(mapaDos)
+					}
 				} else {
 					var r1 Reloj
 					r1 = mapaDos[response1.Planeta] 
@@ -169,6 +186,9 @@ func main(){
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta] = r1
 				} 
+				if Accion == "DeleteCity" {
+					delete(mapaDos, response1.Planeta)
+				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 3{
 				response1, err := c3.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
@@ -178,14 +198,16 @@ func main(){
 				log.Printf("Respuesta del fulcrum3 : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
 				count, ok := mapaDos[response1.Planeta]
 				if ok == false {
-					fmt.Println("el elemento no estaba", count)
-					var r1 Reloj
-					r1.x = 0
-					r1.y = 0
-					r1.z = 1
-					r1.servidor = int(response.Nserver)
-					mapaDos[response1.Planeta]=r1
-					fmt.Println(mapaDos)
+					if response1.Planeta != "" {
+						fmt.Println("el elemento no estaba", count)
+						var r1 Reloj
+						r1.x = 0
+						r1.y = 0
+						r1.z = 1
+						r1.servidor = int(response.Nserver)
+						mapaDos[response1.Planeta]=r1
+						fmt.Println(mapaDos)
+					}
 				} else {
 					var r1 Reloj
 					r1 = mapaDos[response1.Planeta]
@@ -193,6 +215,9 @@ func main(){
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta] = r1
 				} 
+				if Accion == "DeleteCity" {
+					delete(mapaDos, response1.Planeta)
+				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else{
 				log.Fatalf("Otro caso")

@@ -251,6 +251,7 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 	log.Printf("%s %s %s", in.Accion, in.Planeta,in.Ciudad)
 	if in.Accion == "AddCity" {
 		if in.Intvalue != -1 {
+			fmt.Println(in.Intvalue)
 			AddCity(in.Planeta, in.Ciudad, strconv.Itoa(int(in.Intvalue)))
 		}else{
 			AddCity(in.Planeta, in.Ciudad, "")
@@ -295,7 +296,7 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 		count, ok := mapaDos[in.Planeta]
 		if ok == true {
 			var r1 reloj
-			mapaDos[in.Planeta] = r1
+			r1 = mapaDos[in.Planeta]
 			if in.Servidor == 1{
 				r1.x = r1.x + 1
 			}else if in.Servidor == 2{
@@ -306,13 +307,14 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 			mapaDos[in.Planeta] = r1
 		}else{
 			fmt.Println("el elemento no estaba", count)
+			return &Reloj{Planeta: "",X:int32(0),Y:int32(0),Z:int32(0)},nil
 		}
 	}else if in.Accion == "UpdateNumber"{
 		UpdateNumber(in.Planeta, in.Ciudad, strconv.Itoa(int(in.Intvalue)))
 		count, ok := mapaDos[in.Planeta]
 		if ok == true {
 			var r1 reloj
-			mapaDos[in.Planeta] = r1
+			r1 = mapaDos[in.Planeta]
 			if in.Servidor == 1{
 				r1.x = r1.x + 1
 			}else if in.Servidor == 2{
@@ -323,9 +325,10 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 			mapaDos[in.Planeta] = r1
 		}else{
 			fmt.Println("el elemento no estaba", count)
+			return &Reloj{Planeta: "",X:int32(0),Y:int32(0),Z:int32(0)},nil
 		}
 	}else{
-		log.Printf("Caso contrario")
+		log.Printf("Caso contrario")	
 	}
 	var r reloj
 	r = mapaDos[in.Planeta]
