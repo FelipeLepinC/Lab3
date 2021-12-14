@@ -145,6 +145,7 @@ func main(){
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta] = r1
 				} 
+				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 2{
 				response1, err := c2.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
 				if err != nil {
@@ -155,8 +156,8 @@ func main(){
 				if ok == false {
 					fmt.Println("el elemento no estaba", count)
 					var r1 Reloj
-					r1.x = 1
-					r1.y = 0
+					r1.x = 0
+					r1.y = 1
 					r1.z = 0
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta]=r1
@@ -164,10 +165,11 @@ func main(){
 				} else {
 					var r1 Reloj
 					r1 = mapaDos[response1.Planeta] 
-					r1.x = r1.x + 1
+					r1.y = r1.y + 1
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta] = r1
 				} 
+				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 3{
 				response1, err := c3.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
 				if err != nil {
@@ -178,19 +180,20 @@ func main(){
 				if ok == false {
 					fmt.Println("el elemento no estaba", count)
 					var r1 Reloj
-					r1.x = 1
+					r1.x = 0
 					r1.y = 0
-					r1.z = 0
+					r1.z = 1
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta]=r1
 					fmt.Println(mapaDos)
 				} else {
 					var r1 Reloj
 					r1 = mapaDos[response1.Planeta]
-					r1.x = r1.x + 1
+					r1.z = r1.z + 1
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta] = r1
 				} 
+				fmt.Println(mapaDos[response1.Planeta])
 			}else{
 				log.Fatalf("Otro caso")
 			}

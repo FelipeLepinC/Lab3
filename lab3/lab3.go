@@ -273,11 +273,11 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 				r1.z = 1
 			}
 			r1.servidor = int(in.Servidor)
-			mapaDos[in.Planeta]=r1
+			mapaDos[in.Planeta] = r1
 			fmt.Println(mapaDos)
 		} else {
 			var r1 reloj
-			mapaDos[in.Planeta] = r1
+			r1 = mapaDos[in.Planeta] 
 			if in.Servidor == 1{
 				r1.x = r1.x + 1
 			}else if in.Servidor == 2{
