@@ -1,5 +1,5 @@
 broker:
-	go run server/fulcrum1.go
+	go run server/broker.go
 fulcrum1:
 	go run server/fulcrum1.go
 fulcrum2:

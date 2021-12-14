@@ -23,6 +23,16 @@ message L{
     int32 Servidor = 3;
 }
 
+message Lresponse{
+    string Planeta = 1;
+    int32 Valor = 2;
+    int32 X = 3;
+    int32 Y = 4;
+    int32 Z = 5;
+    int32 Servidor = 6;
+    bool Merge = 7;
+}
+
 message Reloj{
     string Planeta = 1;
     int32 x = 2;
@@ -50,9 +60,9 @@ service Starwars{
     rpc Alertabroken (Operacion) returns (Message);
     rpc Fulcrum (Operacion) returns (Reloj);
     rpc Intermediario (Message) returns (Message);
-    rpc Leia (L) returns (L);
-    rpc Interleia (L) returns (L);
-    rpc Leiafulcrum (L) returns (L);
+    rpc Leia (L) returns (Lresponse);
+    rpc Interleia (Lresponse) returns (L);
+    rpc Leiafulcrum (L) returns (Lresponse);
     rpc Pedirdic (Message) returns (Merge);
     rpc Enviardic (Merge) returns (Message);
 }

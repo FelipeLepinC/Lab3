@@ -27,7 +27,7 @@ func main() {
 	defer Ful1.Close()
 	c1 := lab3.NewStarwarsClient(Ful1)
 	// conexion con el server fulcrum 2
-	/* var Ful2 *grpc.ClientConn
+	 var Ful2 *grpc.ClientConn
 	Ful2, err2 := grpc.Dial(":9002",grpc.WithInsecure())
 	if err2 != nil {
 		log.Fatalf("did not connect: %s", err2)
@@ -41,26 +41,46 @@ func main() {
 		log.Fatalf("did not connect: %s", err3)
 	}
 	defer Ful3.Close()
-	c3 := lab3.NewStarwarsClient(Ful3) */
+	c3 := lab3.NewStarwarsClient(Ful3) 
 
 	planeta := "Tatooine"
 	ciudad := "Mos_Eisley"
 	servidor := int32(1)
 
 	for{
-		response, err := c.Interleia(context.Background(),&lab3.L{Planeta:planeta,Ciudad:ciudad,Servidor:servidor})
+		response, err := c.Interleia(context.Background(),&lab3.Lresponse{Planeta:planeta,Ciudad:ciudad,Servidor:servidor})
 		if err != nil {
 			log.Fatalf("Error when calling Interleia: %s", err)
 		}
 		log.Printf("Response from server: %s",response.Planeta)
 
-		response2, err2 := c1.Leiafulcrum(context.Background(),&lab3.L{Planeta:response.Planeta,Ciudad:response.Ciudad,Servidor:response.Servidor})
-		if err2 != nil {
-			log.Fatalf("Error when calling Leiafulcrum: %s", err2)
+		if response.Servidor == 1{
+			response2, err2 := c1.Leiafulcrum(context.Background(),&lab3.L{Planeta:response.Planeta,Ciudad:response.Ciudad,Servidor:response.Servidor})
+			if err2 != nil {
+				log.Fatalf("Error when calling Leiafulcrum: %s", err2)
+			}
+			log.Printf("Response from server: %s",response2.Planeta)
+			planeta = response2.Planeta
+			ciudad = response2.Ciudad
+			servidor = response2.Servidor
+		}else if response.Servidor == 2{
+			response2, err2 := c2.Leiafulcrum(context.Background(),&lab3.L{Planeta:response.Planeta,Ciudad:response.Ciudad,Servidor:response.Servidor})
+			if err2 != nil {
+				log.Fatalf("Error when calling Leiafulcrum: %s", err2)
+			}
+			log.Printf("Response from server: %s",response2.Planeta)
+			planeta = response2.Planeta
+			ciudad = response2.Ciudad
+			servidor = response2.Servidor
+		}else{
+			response2, err2 := c3.Leiafulcrum(context.Background(),&lab3.L{Planeta:response.Planeta,Ciudad:response.Ciudad,Servidor:response.Servidor})
+			if err2 != nil {
+				log.Fatalf("Error when calling Leiafulcrum: %s", err2)
+			}
+			log.Printf("Response from server: %s",response2.Planeta)
+			planeta = response2.Planeta
+			ciudad = response2.Ciudad
+			servidor = response2.Servidor
 		}
-		log.Printf("Response from server: %s",response2.Planeta)
-		planeta = response2.Planeta
-		ciudad = response2.Ciudad
-		servidor = response2.Servidor
 	}
 }

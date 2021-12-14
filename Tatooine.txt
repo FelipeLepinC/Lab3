@@ -1,4 +1,2 @@
+Tatooine Mos_Eisley 100
 Tatooine Santiago 85
-Tatooine Calama 25
-Tatooine Talca 78
-Tatooine Mos_Pelgo 8

@@ -129,13 +129,13 @@ func main(){
 			}
 			response, err := c.Alertabroken(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:Servidor})
 			if err != nil {
-				log.Fatalf("Error when calling Enviarinfo: %s", err)
+				log.Fatalf("Error when calling Alertabroken: %s", err)
 			}
 			fmt.Println("Respuesta del broker : ",response.Nserver)
 			if response.Nserver == 1{
 				response1, err := c1.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
 				if err != nil {
-					log.Fatalf("Error when calling Enviarinfo: %s", err)
+					log.Fatalf("Error when calling Fulcrum1: %s", err)
 				}
 				log.Printf("Respuesta del fulcrum1 : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
 				count, ok := mapaDos[response1.Planeta]
@@ -161,18 +161,18 @@ func main(){
 					delete(mapaDos, response1.Planeta)
 				}
 				if response1.Merge == true{
-					for key,value := range mapaDos {
+					for key,_ := range mapaDos {
 						var r1 Reloj
-						r1 = mapaDos[response1.Planeta]
+						r1 = mapaDos[key]
 						r1.servidor = 0
-						mapaDos[response1.Planeta] = r1
+						mapaDos[key] = r1
 					}
 				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 2{
 				response1, err := c2.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
 				if err != nil {
-					log.Fatalf("Error when calling Enviarinfo: %s", err)
+					log.Fatalf("Error when calling Fulcrum2: %s", err)
 				}
 				log.Printf(" Respuesta del fulcrum2 : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
 				count, ok := mapaDos[response1.Planeta]
@@ -198,18 +198,18 @@ func main(){
 					delete(mapaDos, response1.Planeta)
 				}
 				if response1.Merge == true{
-					for key,value := range mapaDos {
+					for key,_ := range mapaDos {
 						var r1 Reloj
-						r1 = mapaDos[response1.Planeta]
+						r1 = mapaDos[key]
 						r1.servidor = 0
-						mapaDos[response1.Planeta] = r1
+						mapaDos[key] = r1
 					}
 				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 3{
 				response1, err := c3.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
 				if err != nil {
-					log.Fatalf("Error when calling Enviarinfo: %s", err)
+					log.Fatalf("Error when calling Fulcrum3: %s", err)
 				}
 				log.Printf("Respuesta del fulcrum3 : %s %d %d %d", response1.Planeta, response1.X,response1.Y,response1.Z)
 				count, ok := mapaDos[response1.Planeta]
@@ -235,11 +235,11 @@ func main(){
 					delete(mapaDos, response1.Planeta)
 				}
 				if response1.Merge == true{
-					for key,value := range mapaDos {
+					for key,_ := range mapaDos {
 						var r1 Reloj
-						r1 = mapaDos[response1.Planeta]
+						r1 = mapaDos[key]
 						r1.servidor = 0
-						mapaDos[response1.Planeta] = r1
+						mapaDos[key] = r1
 					}
 				}
 				fmt.Println(mapaDos[response1.Planeta])

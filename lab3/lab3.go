@@ -21,6 +21,10 @@ type Server struct {
 	intvalue int32
     servidor int32
 	merge bool
+	Valor int32  
+	X int32
+	Y int32
+	Z int32
 }
 
 type reloj struct{   ///////////////////////////
@@ -244,6 +248,23 @@ func GetPlanet(planeta string) string {
 	}
 }
 
+func UpdatePlanet(planeta string, contenido string) {
+	fileName := planeta + ".txt"
+
+	//Eliminamos el archivo obsoleto
+	os.Remove(fileName)
+
+	//Creamos el planeta y escribimos la información actualizada
+	file, err := os.Create(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	file.WriteString(contenido)
+	fmt.Printf("Planeta %s mergeado\n", planeta)
+}
+
 func (s *Server) Enviarinfo(ctx context.Context, in *Info) (*Info, error){
 	return &Info{Planeta: "Tatooine",Ciudad: "Mos_Eisley", Soldados: 5},nil
 }
@@ -375,24 +396,28 @@ func (s *Server) Intermediario(ctx context.Context, in *Message) (*Message, erro
 	return &Message{Nserver:in.Nserver},nil
 }
 
-func (s *Server) Leia(ctx context.Context, in *L) (*L, error) {
+func (s *Server) Leia(ctx context.Context, in *L) (*Lresponse, error) {
 	log.Printf(" %s ",in.Planeta)
 	s.planeta = in.Planeta
 	s.ciudad = in.Ciudad
-	s.servidor = in.Servidor
+	s.servidor = in.Servidor // EVALUAR A QUE SERVER DIRIGIR 
 	s.process = true
 	log.Printf("%t",s.process)
 	for(s.process) {
 		//log.Printf("Esta aqui for leia")
 	}
-	return &L{Planeta: s.planeta,Ciudad:s.ciudad,Servidor:s.servidor}, nil
+	return &Lresponse{Planeta: s.planeta,Valor:s.Valor,X:s.X,Y:s.Y,Z:s.Z,Servidor:s.servidor}, nil
 }
 
-func (s *Server) Interleia(ctx context.Context, in *L) (*L, error) {
+func (s *Server) Interleia(ctx context.Context, in *Lresponse) (*L, error) {
 	log.Printf(" %s ",in.Planeta)
 	s.planeta = in.Planeta
-	s.ciudad = in.Ciudad
+	s.Valor = in.Valor
+	s.X = in.X
+	s.Y = in.Y
+	s.Z = in.Z
 	s.servidor = in.Servidor
+	s.merge = in.Merge
 	s.process = false
 	log.Printf("%t",s.process)
 	for(!s.process){
@@ -402,24 +427,19 @@ func (s *Server) Interleia(ctx context.Context, in *L) (*L, error) {
 	return &L{Planeta: s.planeta,Ciudad:s.ciudad,Servidor:s.servidor}, nil
 }
 
-func (s *Server) Leiafulcrum(ctx context.Context, in *L)(*L, error){
+func (s *Server) Leiafulcrum(ctx context.Context, in *L)(*Lresponse, error){
 	log.Printf(" %s ",in.Planeta)
-	return &L{Planeta: in.Planeta,Ciudad:in.Ciudad,Servidor:in.Servidor}, nil
+	// Buscar una la respuest en el archivo 
+	return &Lresponse{Planeta: in.Planeta,Valor:0,X:0,Y:0,Z:0,Servidor:in.Servidor,Merge:s.merge}, nil
 }
 
 func (s *Server) Pedirdic(ctx context.Context, in *Message) (*Merge, error) {
 	// pasar los relojes que tenemos a formato string -> string -> string
 	s.merge = true
-	var r1 reloj
-	r1.x = 1
-	r1.y = 0
-	r1.z = 0
-	r1.servidor = 1
-	mapaDos["Tierra"]=r1
 	var m = make(map[string]string)
 	for key, value := range mapaDos {
 		fmt.Println("Key:", key, "Value:", value.x)
-		m[key] = strconv.Itoa(value.x)+","+strconv.Itoa(value.y)+","+strconv.Itoa(value.z)
+		m[key] = strconv.Itoa(value.x)+","+strconv.Itoa(value.y)+","+strconv.Itoa(value.z)+GetPlanet(key)
 		// Agregar funcion josue GetPlanet(planeta string)
 	}
 	return &Merge{M:m},nil 
@@ -443,6 +463,7 @@ func (s *Server) Enviardic(ctx context.Context, in *Merge) (*Message, error) {
 		r1.z = n
 		r1.servidor = 1
 		mapaDos[key]=r1
+		UpdatePlanet(key, l[3])
 		// Falta pasar el string a archivo 
 	}
 	return &Message{Nserver:1},nil
