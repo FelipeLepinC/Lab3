@@ -61,6 +61,7 @@ func Encontrar(d1 []string, d2 []string, d3 []string,f int ) int{
 }
 
 func main() {
+	var largos [3]int
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":9001",grpc.WithInsecure())
 	if err != nil {
@@ -86,9 +87,10 @@ func main() {
 	c3 := lab3.NewStarwarsClient(Ful3)
 
 	var nuevo = make(map[string]string)
+	var temp = make(map[string]string)
 
 	for {
-        time.Sleep(5 * time.Second)
+        time.Sleep(120 * time.Second)
 		response, err := c.Pedirdic(context.Background(),&lab3.Message{Nserver:1})
 		if err != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", err)
@@ -102,9 +104,34 @@ func main() {
 		if e2 != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", e2)
 		}
+		// Elegir el mejor 
+		largos[0] = len(response.M) 
+		largos[1] = len(response1.M) 
+		largos[2] = len(response2.M)
+
+		max := -999999999
+		mindex := -1
+		i := 0
+
+		for _,num := range largos {
+			if num > max {
+				max = num 
+				mindex = i
+			}
+			i = i + 1
+		}
+		fmt.Println(mindex)
+
+		if mindex == 0{
+			temp = response.M
+		}else if mindex == 1{
+			temp = response1.M
+		}else{
+			temp = response2.M
+		}
 
 		n := 0
-		for key, value := range response.M {
+		for key, value := range temp {
 			fmt.Println("Key:", key, "Value:", value)
 			delimitador := ","
 			r1 := strings.Split(value, delimitador)
@@ -136,17 +163,18 @@ func main() {
 		}
 		// fmt.Println(n)
 
-		r1, er1 := c.Enviardic(context.Background(),&lab3.Merge{M:nuevo})
+		resp1, er1 := c.Enviardic(context.Background(),&lab3.Merge{M:nuevo})
 		if er1 != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", er1)
 		}
-		r2, er2 := c2.Enviardic(context.Background(),&lab3.Merge{M:nuevo})
+		resp2, er2 := c2.Enviardic(context.Background(),&lab3.Merge{M:nuevo})
 		if er2 != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", er2)
 		}
-		r3, er3 := c3.Enviardic(context.Background(),&lab3.Merge{M:nuevo})
+		resp3, er3 := c3.Enviardic(context.Background(),&lab3.Merge{M:nuevo})
 		if er3 != nil {
 			log.Fatalf("Error when calling Enviarinfo: %s", er3)
 		}
+		fmt.Println(resp1.Nserver,resp2.Nserver,resp3.Nserver)
     }
 }

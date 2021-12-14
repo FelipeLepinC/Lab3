@@ -30,6 +30,7 @@ func main(){
 	var  Svalue  string
 	var Servidor int32
 	var num string
+	var s bool 
 	var conn *grpc.ClientConn
 
 	conn, err := grpc.Dial(":9000",grpc.WithInsecure())
@@ -68,7 +69,7 @@ func main(){
 	var lectura int
 	//var comando string 
 	reader := bufio.NewReader(os.Stdin)
-
+	s = false
 	for {
 		fmt.Println("¿Desea ejecutar un comando?")
 		fmt.Println("1.-Si")
@@ -131,6 +132,15 @@ func main(){
 			if err != nil {
 				log.Fatalf("Error when calling Alertabroken: %s", err)
 			}
+			if s == true{
+				for key,_ := range mapaDos {
+					var r1 Reloj
+					r1 = mapaDos[key]
+					r1.servidor = int(response.Nserver)
+					mapaDos[key] = r1
+				}
+				s = false
+			}
 			fmt.Println("Respuesta del broker : ",response.Nserver)
 			if response.Nserver == 1{
 				response1, err := c1.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
@@ -152,14 +162,16 @@ func main(){
 					}
 				} else {
 					var r1 Reloj
-					r1 = mapaDos[response1.Planeta]
-					r1.x = r1.x + 1
+					r1.x = int(response1.X)
+					r1.y = int(response1.Y)
+					r1.z = int(response1.Z)
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta] = r1
 				} 
 				if Accion == "DeleteCity" {
 					delete(mapaDos, response1.Planeta)
 				}
+				fmt.Println("")
 				if response1.Merge == true{
 					for key,_ := range mapaDos {
 						var r1 Reloj
@@ -167,6 +179,7 @@ func main(){
 						r1.servidor = 0
 						mapaDos[key] = r1
 					}
+					s = true
 				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 2{
@@ -189,8 +202,9 @@ func main(){
 					}
 				} else {
 					var r1 Reloj
-					r1 = mapaDos[response1.Planeta] 
-					r1.y = r1.y + 1
+					r1.x = int(response1.X)
+					r1.y = int(response1.Y)
+					r1.z = int(response1.Z)
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta] = r1
 				} 
@@ -204,6 +218,7 @@ func main(){
 						r1.servidor = 0
 						mapaDos[key] = r1
 					}
+					s = true
 				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 3{
@@ -226,8 +241,9 @@ func main(){
 					}
 				} else {
 					var r1 Reloj
-					r1 = mapaDos[response1.Planeta]
-					r1.z = r1.z + 1
+					r1.x = int(response1.X)
+					r1.y = int(response1.Y)
+					r1.z = int(response1.Z)
 					r1.servidor = int(response.Nserver)
 					mapaDos[response1.Planeta] = r1
 				} 
@@ -241,6 +257,7 @@ func main(){
 						r1.servidor = 0
 						mapaDos[key] = r1
 					}
+					s = true
 				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else{

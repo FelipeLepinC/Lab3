@@ -147,7 +147,13 @@ func ChangeInfo(tipo string, planeta string, ciudad string, dato_new string) boo
 			} else if tipo == "UpdateName" {
 				//Si es una operación de tipo UpdateName, actualizamos el nombre y escribimos todas las ciudades
 				if split[1] == ciudad {
-					tempFile.WriteString(split[0] + " " + dato_new + " " + split[2] + "\n")
+					if len(split) == 3 {
+						//Si la ciudad tiene soldados
+						tempFile.WriteString(split[0] + " " + dato_new + " " + split[2] + "\n")
+					} else {
+						//Si la ciudad no tiene soldados
+						tempFile.WriteString(split[0] + " " + dato_new + "\n")
+					}
 					existe = true
 					fmt.Printf("Nombre de ciudad %s actualizado a %s\n", ciudad, dato_new)
 				} else {
@@ -177,13 +183,12 @@ func ChangeInfo(tipo string, planeta string, ciudad string, dato_new string) boo
 		if !existe {
 			fmt.Printf("Ciudad %s no existe\n", ciudad)
 			return false
-		} else {
-			return true
 		}
+		return true
 
 	} else {
 		fmt.Printf("Planeta %s no existe\n", oldFileName)
-		return true
+		return false
 	}
 }
 
@@ -254,6 +259,44 @@ func GetPlanet(planeta string) string {
 	}
 }
 
+func GetSoldiers(planeta string, ciudad string) string {
+	fileName := planeta + ".txt"
+
+	//Revisamos si el archivo del planeta existe
+	if _, err := os.Stat(fileName); err == nil {
+		//Si existe, lo abrimos
+		file, err := os.Open(fileName)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+
+		//Buscamos la ciudad linea por linea
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			split := strings.Split(scanner.Text(), " ")
+			if split[1] == ciudad {
+				if len(split) == 3 {
+					//Si la ciudad tiene soldados
+					fmt.Printf("En planeta %s, ciudad %s hay %s soldados\n", planeta, ciudad, split[2])
+					return split[2]
+				} else {
+					//Si la ciudad no tiene soldados
+					fmt.Printf("En planeta %s, ciudad %s no hay soldados\n", planeta, ciudad)
+					return "0"
+				}
+
+			}
+		}
+		fmt.Printf("Ciudad %s no existe\n", ciudad)
+		return "-1"
+
+	} else {
+		fmt.Printf("Planeta %s no existe\n", planeta)
+		return "-1"
+	}
+}
+
 func UpdatePlanet(planeta string, contenido string) {
 	fileName := planeta + ".txt"
 
@@ -269,6 +312,31 @@ func UpdatePlanet(planeta string, contenido string) {
 
 	file.WriteString(contenido)
 	fmt.Printf("Planeta %s mergeado\n", planeta)
+}
+
+func DeletePlanetas(servidor string) {
+	fileName := servidor + ".txt"
+
+	//Revisamos si el archivo del registro del servidor existe
+	if _, err := os.Stat(fileName); err == nil {
+		//Si existe, lo abrimos
+		file, err := os.Open(fileName)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+
+		//Leemos los planetas linea por linea
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			split := strings.Split(scanner.Text(), " ")
+			//Eliminamos cada planeta del servidor
+			os.Remove(split[1] + ".txt")
+		}
+		fmt.Printf("Planetas del servidor %s eliminados\n", servidor)
+	} else {
+		fmt.Printf("Servidor %s no tiene planetas\n", servidor)
+	}
 }
 
 func (s *Server) Enviarinfo(ctx context.Context, in *Info) (*Info, error) {
@@ -401,10 +469,10 @@ func (s *Server) Alertabroken(ctx context.Context, in *Operacion) (*Message, err
 	if in.Accion != "" && in.Servidor == 0 {
 		rand.Seed(time.Now().UnixNano())
 		n = int32(1 + rand.Intn(3-1+1))
-		log.Printf("Servidor elegido es : %d", n)
 	} else {
 		n = in.Servidor
 	}
+	log.Printf("Servidor elegido es : %d", n)
 	return &Message{Nserver: n}, nil
 }
 
@@ -456,9 +524,10 @@ func (s *Server) Pedirdic(ctx context.Context, in *Message) (*Merge, error) {
 	var m = make(map[string]string)
 	for key, value := range mapaDos {
 		fmt.Println("Key:", key, "Value:", value.x)
-		m[key] = strconv.Itoa(value.x) + "," + strconv.Itoa(value.y) + "," + strconv.Itoa(value.z) + GetPlanet(key)
+		m[key] = strconv.Itoa(value.x) + "," + strconv.Itoa(value.y) + "," + strconv.Itoa(value.z) +","+ GetPlanet(key)
 		// Agregar funcion josue GetPlanet(planeta string)
 	}
+	DeletePlanetas(strconv.Itoa(int(in.Nserver))) 
 	return &Merge{M: m}, nil
 }
 

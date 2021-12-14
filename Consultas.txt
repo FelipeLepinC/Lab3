@@ -7,3 +7,4 @@ AddCity Tatooine Mos_Pelgo 8
 UpdateName Tatooine Mos_Eisley Mos_Gamos
 DeleteCity Tatooine Mos_Gamos
 DeleteCity Tatooine Mos_Eisley
+GetNumberRebelds Tatooine Mos_Eisley

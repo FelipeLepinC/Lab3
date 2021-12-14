@@ -11,6 +11,15 @@ import (
 	"strings"
 )
 
+type reloj struct{   ///////////////////////////
+	x int
+	y int
+	z int
+	servidor int
+}
+
+var mp = make(map[string] reloj)
+
 func main(){
 	var planeta string
 	var ciudad string
@@ -41,7 +50,7 @@ func main(){
 			if nombresComoArreglo[0] == "GetNumberRebelds" {
 				planeta = nombresComoArreglo[1]
 				ciudad = nombresComoArreglo[2]
-				count, ok := mapaDos[planeta]
+				count, ok := mp[planeta]
 				if ok == false {
 					servidor = 0
 				}else{
@@ -52,25 +61,25 @@ func main(){
 				if err != nil {
 					log.Fatalf("Error when calling Leia: %s", err)
 				}
-				log.Printf("Response from server: %s",response.Planeta)
-				count, ok = mapaDos[response.Planeta]
+				log.Printf("Response from server: %d",int(response.Valor))
+				count, ok = mp[response.Planeta]
 				if ok == false {
 					if response.Planeta != "" {
 						fmt.Println("el elemento no estaba", count)
-						var r1 Reloj
+						var r1 reloj
 						r1.x = 0
 						r1.y = 1
 						r1.z = 0
 						r1.servidor = int(response.Servidor)
-						mapaDos[response.Planeta] = r1
-						fmt.Println(mapaDos)
+						mp[response.Planeta] = r1
+						fmt.Println(mp)
 					}
 				} else {
-					var r1 Reloj
-					r1 = mapaDos[response.Planeta] 
+					var r1 reloj
+					r1 = mp[response.Planeta] 
 					r1.y = r1.y + 1
 					r1.servidor = int(response.Servidor)
-					mapaDos[response.Planeta] = r1
+					mp[response.Planeta] = r1
 				} 
 			}
 		}
