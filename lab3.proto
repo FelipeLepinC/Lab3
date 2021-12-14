@@ -28,6 +28,7 @@ message Reloj{
     int32 x = 2;
     int32 y = 3;
     int32 z = 4;
+    bool merge = 5;
 }
 
 message Cont{

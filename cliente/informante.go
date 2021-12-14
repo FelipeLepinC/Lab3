@@ -160,6 +160,14 @@ func main(){
 				if Accion == "DeleteCity" {
 					delete(mapaDos, response1.Planeta)
 				}
+				if response1.Merge == true{
+					for key,value := range mapaDos {
+						var r1 Reloj
+						r1 = mapaDos[response1.Planeta]
+						r1.servidor = 0
+						mapaDos[response1.Planeta] = r1
+					}
+				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 2{
 				response1, err := c2.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
@@ -189,6 +197,14 @@ func main(){
 				if Accion == "DeleteCity" {
 					delete(mapaDos, response1.Planeta)
 				}
+				if response1.Merge == true{
+					for key,value := range mapaDos {
+						var r1 Reloj
+						r1 = mapaDos[response1.Planeta]
+						r1.servidor = 0
+						mapaDos[response1.Planeta] = r1
+					}
+				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else if response.Nserver == 3{
 				response1, err := c3.Fulcrum(context.Background(),&lab3.Operacion{Accion:Accion,Planeta:Planeta,Ciudad:Ciudad,Intvalue:Intvalue,Svalue:Svalue,Servidor:response.Nserver})
@@ -217,6 +233,14 @@ func main(){
 				} 
 				if Accion == "DeleteCity" {
 					delete(mapaDos, response1.Planeta)
+				}
+				if response1.Merge == true{
+					for key,value := range mapaDos {
+						var r1 Reloj
+						r1 = mapaDos[response1.Planeta]
+						r1.servidor = 0
+						mapaDos[response1.Planeta] = r1
+					}
 				}
 				fmt.Println(mapaDos[response1.Planeta])
 			}else{

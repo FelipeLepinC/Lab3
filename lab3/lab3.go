@@ -20,6 +20,7 @@ type Server struct {
 	soldados int32
 	intvalue int32
     servidor int32
+	merge bool
 }
 
 type reloj struct{   ///////////////////////////
@@ -249,6 +250,7 @@ func (s *Server) Enviarinfo(ctx context.Context, in *Info) (*Info, error){
 
 func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 	log.Printf("%s %s %s", in.Accion, in.Planeta,in.Ciudad)
+	var p bool
 	if in.Accion == "AddCity" {
 		if in.Intvalue != -1 {
 			fmt.Println(in.Intvalue)
@@ -286,6 +288,7 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 			}else{
 				r1.z = r1.z + 1
 			}
+			r1.servidor = int(in.Servidor)
 			mapaDos[in.Planeta] = r1
 		} 
 	}else if in.Accion == "DeleteCity"{
@@ -304,10 +307,17 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 			}else{
 				r1.z = r1.z + 1
 			}
+			r1.servidor = int(in.Servidor)
 			mapaDos[in.Planeta] = r1
 		}else{
 			fmt.Println("el elemento no estaba", count)
-			return &Reloj{Planeta: "",X:int32(0),Y:int32(0),Z:int32(0)},nil
+			if s.merge == true {
+				p = true
+				s.merge = false
+			}else{
+				p = false
+			}
+			return &Reloj{Planeta: "",X:int32(0),Y:int32(0),Z:int32(0),Merge:p},nil
 		}
 	}else if in.Accion == "UpdateNumber"{
 		UpdateNumber(in.Planeta, in.Ciudad, strconv.Itoa(int(in.Intvalue)))
@@ -322,17 +332,30 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 			}else{
 				r1.z = r1.z + 1
 			}
+			r1.servidor = int(in.Servidor)
 			mapaDos[in.Planeta] = r1
 		}else{
 			fmt.Println("el elemento no estaba", count)
-			return &Reloj{Planeta: "",X:int32(0),Y:int32(0),Z:int32(0)},nil
+			if s.merge == true {
+				p = true
+				s.merge = false
+			}else{
+				p = false
+			}
+			return &Reloj{Planeta: "",X:int32(0),Y:int32(0),Z:int32(0),Merge:p},nil
 		}
 	}else{
 		log.Printf("Caso contrario")	
 	}
+	if s.merge == true {
+		p = true
+		s.merge = false
+	}else{
+		p = false
+	}
 	var r reloj
 	r = mapaDos[in.Planeta]
-	return &Reloj{Planeta: in.Planeta,X:int32(r.x),Y:int32(r.y),Z:int32(r.z)},nil
+	return &Reloj{Planeta: in.Planeta,X:int32(r.x),Y:int32(r.y),Z:int32(r.z),Merge:p},nil
 }	
 
 func (s *Server) Alertabroken(ctx context.Context, in *Operacion) (*Message, error){
@@ -386,6 +409,7 @@ func (s *Server) Leiafulcrum(ctx context.Context, in *L)(*L, error){
 
 func (s *Server) Pedirdic(ctx context.Context, in *Message) (*Merge, error) {
 	// pasar los relojes que tenemos a formato string -> string -> string
+	s.merge = true
 	var r1 reloj
 	r1.x = 1
 	r1.y = 0
