@@ -29,6 +29,12 @@ type reloj struct{   ///////////////////////////
 	servidor int
 }
 
+type rj struct{   ///////////////////////////
+	x int32
+	y int32
+	z int32
+}
+
 var mapaDos = make(map[string] reloj)
 
 func ReadPlanet(planeta string) {
@@ -211,6 +217,32 @@ func ClearRegistro(servidor string) {
 	}
 }
 
+func GetPlanet(planeta string) string {
+	filename := planeta + ".txt"
+	contenido := ""
+
+	//Revisamos si el archivo del planeta existe
+	if _, err := os.Stat(filename); err == nil {
+		//Si existe, lo abrimos
+		file, err := os.Open(filename)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+
+		//Vemos línea por línea
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			contenido += scanner.Text() + "\n"
+		}
+		return contenido
+
+	} else {
+		fmt.Printf("Planeta %s no existe\n", planeta)
+		return ""
+	}
+}
+
 func (s *Server) Enviarinfo(ctx context.Context, in *Info) (*Info, error){
 	return &Info{Planeta: "Tatooine",Ciudad: "Mos_Eisley", Soldados: 5},nil
 }
@@ -227,36 +259,87 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error){
 		if ok == false {
 			fmt.Println("el elemento no estaba", count)
 			var r1 reloj
-			r1.x = 1
-			r1.y = 0
-			r1.z = 0
-			r1.servidor = 1
+			if in.Servidor == 1{
+				r1.x = 1
+				r1.y = 0
+				r1.z = 0
+			}else if in.Servidor == 2{
+				r1.x = 0
+				r1.y = 1
+				r1.z = 0
+			}else{
+				r1.x = 0
+				r1.y = 0
+				r1.z = 1
+			}
+			r1.servidor = int(in.Servidor)
 			mapaDos[in.Planeta]=r1
 			fmt.Println(mapaDos)
 		} else {
 			var r1 reloj
 			mapaDos[in.Planeta] = r1
-			r1.x = r1.x + 1
+			if in.Servidor == 1{
+				r1.x = r1.x + 1
+			}else if in.Servidor == 2{
+				r1.y = r1.y + 1
+			}else{
+				r1.z = r1.z + 1
+			}
 			mapaDos[in.Planeta] = r1
 		} 
 	}else if in.Accion == "DeleteCity"{
 		DeleteCity(in.Planeta, in.Ciudad)
+		delete(mapaDos, in.Planeta)
 	}else if in.Accion == "UpdateName"{
 		UpdateName(in.Planeta, in.Ciudad, in.Svalue)
+		count, ok := mapaDos[in.Planeta]
+		if ok == true {
+			var r1 reloj
+			mapaDos[in.Planeta] = r1
+			if in.Servidor == 1{
+				r1.x = r1.x + 1
+			}else if in.Servidor == 2{
+				r1.y = r1.y + 1
+			}else{
+				r1.z = r1.z + 1
+			}
+			mapaDos[in.Planeta] = r1
+		}else{
+			fmt.Println("el elemento no estaba", count)
+		}
 	}else if in.Accion == "UpdateNumber"{
 		UpdateNumber(in.Planeta, in.Ciudad, strconv.Itoa(int(in.Intvalue)))
+		count, ok := mapaDos[in.Planeta]
+		if ok == true {
+			var r1 reloj
+			mapaDos[in.Planeta] = r1
+			if in.Servidor == 1{
+				r1.x = r1.x + 1
+			}else if in.Servidor == 2{
+				r1.y = r1.y + 1
+			}else{
+				r1.z = r1.z + 1
+			}
+			mapaDos[in.Planeta] = r1
+		}else{
+			fmt.Println("el elemento no estaba", count)
+		}
 	}else{
 		log.Printf("Caso contrario")
 	}
-	return &Reloj{Planeta: in.Planeta,X:1,Y:0,Z:0},nil
+	var r reloj
+	r = mapaDos[in.Planeta]
+	return &Reloj{Planeta: in.Planeta,X:int32(r.x),Y:int32(r.y),Z:int32(r.z)},nil
 }	
 
 func (s *Server) Alertabroken(ctx context.Context, in *Operacion) (*Message, error){
 	n := int32(0)
-	if in.Accion != "" {
+	if in.Accion != "" && in.Servidor == 0 {
 		rand.Seed(time.Now().UnixNano())
 		n = int32(1 + rand.Intn(3-1+1))
 		log.Printf("Servidor elegido es : %d",n)
+	}else{
+		n = in.Servidor	
 	}
 	return &Message{Nserver:n},nil
 }
@@ -296,4 +379,44 @@ func (s *Server) Interleia(ctx context.Context, in *L) (*L, error) {
 func (s *Server) Leiafulcrum(ctx context.Context, in *L)(*L, error){
 	log.Printf(" %s ",in.Planeta)
 	return &L{Planeta: in.Planeta,Ciudad:in.Ciudad,Servidor:in.Servidor}, nil
+}
+
+func (s *Server) Pedirdic(ctx context.Context, in *Message) (*Merge, error) {
+	// pasar los relojes que tenemos a formato string -> string -> string
+	var r1 reloj
+	r1.x = 1
+	r1.y = 0
+	r1.z = 0
+	r1.servidor = 1
+	mapaDos["Tierra"]=r1
+	var m = make(map[string]string)
+	for key, value := range mapaDos {
+		fmt.Println("Key:", key, "Value:", value.x)
+		m[key] = strconv.Itoa(value.x)+","+strconv.Itoa(value.y)+","+strconv.Itoa(value.z)
+		// Agregar funcion josue GetPlanet(planeta string)
+	}
+	return &Merge{M:m},nil 
+}
+
+func (s *Server) Enviardic(ctx context.Context, in *Merge) (*Message, error) {
+	for key, _ := range mapaDos {
+		delete(mapaDos, key)
+	}
+	n := 0
+	var r1 reloj
+	for key, value := range in.M {
+		fmt.Println("Key:", key, "Value:", value)
+		delimitador := ","
+		l := strings.Split(value, delimitador)
+		n, _ = strconv.Atoi(l[0])
+		r1.x = n
+		n, _ = strconv.Atoi(l[1])
+		r1.y = n
+		n, _ = strconv.Atoi(l[2])
+		r1.z = n
+		r1.servidor = 1
+		mapaDos[key]=r1
+		// Falta pasar el string a archivo 
+	}
+	return &Message{Nserver:1},nil
 }

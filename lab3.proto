@@ -30,6 +30,16 @@ message Reloj{
     int32 z = 4;
 }
 
+message Cont{
+    int32 X = 1;
+    int32 Y = 2;
+    int32 Z = 3;
+}
+
+message Merge{
+    map<string,string> m = 1;
+}
+
 message Message{
     int32 Nserver = 1;
 }
@@ -42,4 +52,6 @@ service Starwars{
     rpc Leia (L) returns (L);
     rpc Interleia (L) returns (L);
     rpc Leiafulcrum (L) returns (L);
+    rpc Pedirdic (Message) returns (Merge);
+    rpc Enviardic (Merge) returns (Message);
 }

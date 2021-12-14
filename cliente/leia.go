@@ -16,7 +16,7 @@ func main(){
 	defer conn.Close()
 	c := lab3.NewStarwarsClient(conn)
 
-	response, err := c.Leia(context.Background(),&lab3.L{Planeta:"Tatooine",Ciudad:"Mos Eisley",Servidor:1})
+	response, err := c.Leia(context.Background(),&lab3.L{Planeta:"Tatooine",Ciudad:"Mos_Eisley",Servidor:1})
 	if err != nil {
 		log.Fatalf("Error when calling Leia: %s", err)
 	}

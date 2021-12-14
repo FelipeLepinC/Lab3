@@ -44,7 +44,7 @@ func main() {
 	c3 := lab3.NewStarwarsClient(Ful3) */
 
 	planeta := "Tatooine"
-	ciudad := "Mos Eisley"
+	ciudad := "Mos_Eisley"
 	servidor := int32(1)
 
 	for{
