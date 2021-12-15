@@ -512,8 +512,11 @@ func (s *Server) Interleia(ctx context.Context, in *Lresponse) (*L, error) {
 
 func (s *Server) Leiafulcrum(ctx context.Context, in *L) (*Lresponse, error) {
 	log.Printf(" %s ", in.Planeta)
-	// Buscar una la respuest en el archivo
-	return &Lresponse{Planeta: in.Planeta, Valor: 0, X: 0, Y: 0, Z: 0, Servidor: in.Servidor, Merge: s.merge}, nil
+	// Buscar una la respuesta en el archivo
+	cant := GetSoldiers(in.Planeta, in.Ciudad)
+	sv, _ := strconv.Atoi(cant)
+	count, _ := mapaDos[in.Planeta]
+	return &Lresponse{Planeta: in.Planeta, Valor: int32(sv), X: int32(count.x), Y: int32(count.y), Z: int32(count.z), Servidor: in.Servidor, Merge: s.merge}, nil
 }
 
 func (s *Server) Pedirdic(ctx context.Context, in *Message) (*Merge, error) {
