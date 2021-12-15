@@ -6,8 +6,10 @@ fulcrum2:
 	go run server/fulcrum2.go
 fulcrum3:
 	go run server/fulcrum3.go
-informante:
+Ahsoka:
 	go run cliente/informante.go
+Thrawn:
+	go run cliente/Thrawn.go
 leia:
 	go run cliente/leia.go
 interleia:

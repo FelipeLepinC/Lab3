@@ -10,7 +10,7 @@ import (
 func main() {
 	var conn *grpc.ClientConn
 
-	conn, err := grpc.Dial(":9000",grpc.WithInsecure())
+	conn, err := grpc.Dial("10.6.40.253:9001",grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %s", err)
 	}
@@ -20,7 +20,7 @@ func main() {
 
 	// conexion con el server fulcrum 1
 	var Ful1 *grpc.ClientConn
-	Ful1, err1 := grpc.Dial(":9001",grpc.WithInsecure())
+	Ful1, err1 := grpc.Dial("10.6.40.250:9001",grpc.WithInsecure())
 	if err1 != nil {
 		log.Fatalf("did not connect: %s", err1)
 	}
@@ -28,7 +28,7 @@ func main() {
 	c1 := lab3.NewStarwarsClient(Ful1)
 	// conexion con el server fulcrum 2
 	 var Ful2 *grpc.ClientConn
-	Ful2, err2 := grpc.Dial(":9002",grpc.WithInsecure())
+	Ful2, err2 := grpc.Dial("10.6.40.251:9001",grpc.WithInsecure())
 	if err2 != nil {
 		log.Fatalf("did not connect: %s", err2)
 	}
@@ -36,7 +36,7 @@ func main() {
 	c2 := lab3.NewStarwarsClient(Ful2)
 	// conexion con el server fulcrum 3
 	var Ful3 *grpc.ClientConn
-	Ful3, err3 := grpc.Dial(":9003",grpc.WithInsecure())
+	Ful3, err3 := grpc.Dial("10.6.40.252:9001",grpc.WithInsecure())
 	if err3 != nil {
 		log.Fatalf("did not connect: %s", err3)
 	}
@@ -92,11 +92,7 @@ func main() {
 			log.Printf("Response from server: %s",response2.Planeta)
 			planeta = response2.Planeta
 			valor = response2.Valor
-			x = response2.X
-			y = response2.Y
-			z = response2.Z
 			servidor = response2.Servidor
-			merge = response2.Merge
 		}
 	}
 }

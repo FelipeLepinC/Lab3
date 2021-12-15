@@ -10,7 +10,7 @@ import (
 
 func main() {
 	fmt.Println("Bienvenidos al server GRPC!!!")
-	lis,err := net.Listen("tcp", ":9002")
+	lis,err := net.Listen("tcp", ":9001")
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -11,14 +11,14 @@ import (
 	"strings"
 )
 
-type reloj struct{   ///////////////////////////
+type rj struct{   ///////////////////////////
 	x int
 	y int
 	z int
 	servidor int
 }
 
-var mp = make(map[string] reloj)
+var mp2 = make(map[string] rj)
 
 func main(){
 	var planeta string
@@ -26,7 +26,7 @@ func main(){
 	var lectura int
 	var servidor int32 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(":9000",grpc.WithInsecure())
+	conn, err := grpc.Dial("10.6.40.253:9001",grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %s", err)
 	}
@@ -50,7 +50,7 @@ func main(){
 			if nombresComoArreglo[0] == "GetNumberRebelds" {
 				planeta = nombresComoArreglo[1]
 				ciudad = nombresComoArreglo[2]
-				count, ok := mp[planeta]
+				count, ok := mp2[planeta]
 				if ok == false {
 					servidor = 0
 				}else{
@@ -62,24 +62,24 @@ func main(){
 					log.Fatalf("Error when calling Leia: %s", err)
 				}
 				log.Printf("Response from server: %d",int(response.Valor))
-				count, ok = mp[response.Planeta]
+				count, ok = mp2[response.Planeta]
 				if ok == false {
 					if response.Planeta != "" {
 						fmt.Println("el elemento no estaba", count)
-						var r1 reloj
+						var r1 rj
 						r1.x = 0
 						r1.y = 1
 						r1.z = 0
 						r1.servidor = int(response.Servidor)
-						mp[response.Planeta] = r1
-						fmt.Println(mp)
+						mp2[response.Planeta] = r1
+						fmt.Println(mp2)
 					}
 				} else {
-					var r1 reloj
-					r1 = mp[response.Planeta] 
+					var r1 rj
+					r1 = mp2[response.Planeta] 
 					r1.y = r1.y + 1
 					r1.servidor = int(response.Servidor)
-					mp[response.Planeta] = r1
+					mp2[response.Planeta] = r1
 				} 
 			}
 		}
