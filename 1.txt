@@ -1,3 +1,0 @@
-AddCity Tatooine Santiago 85
-AddCity Tatooine Calama 25
-AddCity Tatooine Talca 78

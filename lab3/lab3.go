@@ -26,6 +26,7 @@ type Server struct {
 	X        int32
 	Y        int32
 	Z        int32
+	s int32
 }
 
 type reloj struct { ///////////////////////////
@@ -410,7 +411,6 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error) {
 		} else {
 			fmt.Println("el elemento no estaba", count)
 			if s.merge == true {
-				ClearRegistro(strconv.Itoa(int(in.Servidor)))
 				p = true
 				s.merge = false
 			} else {
@@ -436,7 +436,6 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error) {
 		} else {
 			fmt.Println("el elemento no estaba", count)
 			if s.merge == true {
-				ClearRegistro(strconv.Itoa(int(in.Servidor)))
 				p = true
 				s.merge = false
 			} else {
@@ -453,7 +452,6 @@ func (s *Server) Fulcrum(ctx context.Context, in *Operacion) (*Reloj, error) {
 	}
 
 	if s.merge == true {
-		ClearRegistro(strconv.Itoa(int(in.Servidor)))
 		p = true
 		s.merge = false
 	} else {
@@ -520,14 +518,16 @@ func (s *Server) Leiafulcrum(ctx context.Context, in *L) (*Lresponse, error) {
 
 func (s *Server) Pedirdic(ctx context.Context, in *Message) (*Merge, error) {
 	// pasar los relojes que tenemos a formato string -> string -> string
+
 	s.merge = true
 	var m = make(map[string]string)
 	for key, value := range mapaDos {
-		fmt.Println("Key:", key, "Value:", value.x)
+		fmt.Println("Key:", key, "Value:", value)
 		m[key] = strconv.Itoa(value.x) + "," + strconv.Itoa(value.y) + "," + strconv.Itoa(value.z) +","+ GetPlanet(key)
 		// Agregar funcion josue GetPlanet(planeta string)
 	}
 	DeletePlanetas(strconv.Itoa(int(in.Nserver))) 
+	ClearRegistro(strconv.Itoa(int(in.Nserver)))
 	return &Merge{M: m}, nil
 }
 

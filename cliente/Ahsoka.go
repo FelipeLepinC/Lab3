@@ -88,21 +88,23 @@ func main() {
 
 	var nuevo = make(map[string]string)
 	var temp = make(map[string]string)
+	var temp1 = make(map[string]string)
+	var temp2 = make(map[string]string)
 
 	for {
         time.Sleep(120 * time.Second)
 		response, err := c.Pedirdic(context.Background(),&lab3.Message{Nserver:1})
 		if err != nil {
-			log.Fatalf("Error when calling Enviarinfo: %s", err)
+			log.Fatalf("Error when calling Pedirdic: %s", err)
 		}
-		response1, e1 := c2.Pedirdic(context.Background(),&lab3.Message{Nserver:1})
+		response1, e1 := c2.Pedirdic(context.Background(),&lab3.Message{Nserver:2})
 		if e1 != nil {
-			log.Fatalf("Error when calling Enviarinfo: %s", e1)
+			log.Fatalf("Error when calling Pedirdic: %s", e1)
 		}
 
-		response2, e2 := c3.Pedirdic(context.Background(),&lab3.Message{Nserver:1})
+		response2, e2 := c3.Pedirdic(context.Background(),&lab3.Message{Nserver:3})
 		if e2 != nil {
-			log.Fatalf("Error when calling Enviarinfo: %s", e2)
+			log.Fatalf("Error when calling Pedirdic: %s", e2)
 		}
 		// Elegir el mejor 
 		largos[0] = len(response.M) 
@@ -124,10 +126,16 @@ func main() {
 
 		if mindex == 0{
 			temp = response.M
+			temp1 = response1.M
+			temp2 = response2.M
 		}else if mindex == 1{
 			temp = response1.M
+			temp1 = response.M
+			temp2 = response2.M
 		}else{
 			temp = response2.M
+			temp1 = response.M
+			temp2 = response1.M
 		}
 
 		n := 0
@@ -135,8 +143,8 @@ func main() {
 			fmt.Println("Key:", key, "Value:", value)
 			delimitador := ","
 			r1 := strings.Split(value, delimitador)
-			count1, ok1 := response1.M[key] 
-			count2, ok2 := response2.M[key]
+			count1, ok1 := temp1[key] 
+			count2, ok2 := temp2[key]
 			if ok1 && ok2 { // Los 3 servers tienen la info 
 				r2 := strings.Split(value, delimitador)
 				r3 := strings.Split(value, delimitador)
@@ -161,19 +169,23 @@ func main() {
 				nuevo[key] = count2
 			}
 		}
-		// fmt.Println(n)
+		fmt.Println("Diccionario nuevo")
+
+		for key, value := range nuevo{
+			fmt.Printf(key,value)
+		}
 
 		resp1, er1 := c.Enviardic(context.Background(),&lab3.Merge{M:nuevo})
 		if er1 != nil {
-			log.Fatalf("Error when calling Enviarinfo: %s", er1)
+			log.Fatalf("Error when calling Enviardic: %s", er1)
 		}
 		resp2, er2 := c2.Enviardic(context.Background(),&lab3.Merge{M:nuevo})
 		if er2 != nil {
-			log.Fatalf("Error when calling Enviarinfo: %s", er2)
+			log.Fatalf("Error when calling Enviardic: %s", er2)
 		}
 		resp3, er3 := c3.Enviardic(context.Background(),&lab3.Merge{M:nuevo})
 		if er3 != nil {
-			log.Fatalf("Error when calling Enviarinfo: %s", er3)
+			log.Fatalf("Error when calling Enviardic: %s", er3)
 		}
 		fmt.Println(resp1.Nserver,resp2.Nserver,resp3.Nserver)
     }

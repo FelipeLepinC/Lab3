@@ -1,1 +1,1 @@
-AddCity Tatooine Mos_Eisley 100
+AddCity Tatooine Mos_Pelgo 8
